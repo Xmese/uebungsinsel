@@ -10,158 +10,141 @@
     header{position:sticky;top:0;background:rgba(246,247,251,.92);backdrop-filter:blur(10px);border-bottom:1px solid #e6e6ef;padding:14px;z-index:10}
     h1{margin:0;font-size:18px;font-weight:900}
     .sub{margin-top:6px;font-size:13px;opacity:.75;line-height:1.35}
-    main{max-width:980px;margin:0 auto;padding:14px 12px 90px}
+    main{max-width:980px;margin:0 auto;padding:14px 12px 110px}
     .card{background:#fff;border:1px solid #e6e6ef;border-radius:18px;padding:14px;margin:10px 0;box-shadow:0 1px 0 rgba(0,0,0,.03)}
-    .badge{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:#111;color:#fff;font-weight:850;font-size:12px}
-    .titleRow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-    .q{padding:12px;border-radius:16px;background:radial-gradient(600px 120px at 20% 0%,#fff8ea 0%,rgba(255,248,234,0) 60%),radial-gradient(600px 120px at 90% 10%,#eef7ff 0%,rgba(238,247,255,0) 60%),#fafaff;border:1px solid #ededff;margin:10px 0}
-    select,input[type="text"]{width:100%;padding:10px 12px;border-radius:14px;border:1px solid #d9d9e7;font-size:16px;background:#fff}
-    .result{margin-top:10px;padding:10px 12px;border-radius:14px;border:1px solid #e6e6ef;background:#fff}
-    .ok{color:#0a7a2f;font-weight:900}
-    .no{color:#b00020;font-weight:900}
+    input,select{width:100%;padding:10px 12px;border-radius:14px;border:1px solid #d9d9e7;font-size:16px;background:#fff}
     .hint{margin-top:8px;font-size:13px;opacity:.75;line-height:1.35}
     .btnbar{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,251,.92);backdrop-filter:blur(10px);border-top:1px solid #e6e6ef;padding:10px 12px}
     button{width:100%;padding:12px 14px;border-radius:16px;border:0;background:#111;color:#fff;font-size:16px;font-weight:900}
-    .smallbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+    .smallbtns3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
     .ghost{background:#fff;color:#111;border:1px solid #d9d9e7}
     .back a{display:inline-block;text-decoration:none;color:#111;border:1px solid #d9d9e7;background:#fff;padding:9px 12px;border-radius:999px;font-weight:850}
   </style>
 </head>
 <body>
 <header>
-  <div class="titleRow">
-    <div>
-      <h1>⚖️ Mathe: Vergleichen & Ordnen</h1>
-      <div class="sub">&gt; &lt; = · ordnen · Lücken ergänzen</div>
-    </div>
-    <div class="badge">Level 2</div>
-  </div>
+  <h1>⚖️ Mathe: Vergleichen</h1>
+  <div class="sub">&gt; &lt; = · erst umrechnen, dann vergleichen</div>
 </header>
 
 <main>
   <div class="card back">
     <a href="./index.html">⬅️ Zurück zur Startseite</a>
-    <div class="hint">Tipp: Erst <b>umrechnen</b>, dann vergleichen.</div>
+    <div class="hint">Tipp: Schreibe beide Seiten in <b>dieselbe Einheit</b>.</div>
   </div>
 
   <div class="card">
-    <div class="q" data-type="select" data-answer="=">
-      <b>1)</b> 1 kg 200 g ___ 1200 g
-      <select>
-        <option value="">—</option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
-      </select>
-    </div>
-
-    <div class="q" data-type="select" data-answer="=">
-      <b>2)</b> 95 mm ___ 9 cm 5 mm
-      <select>
-        <option value="">—</option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
-      </select>
-    </div>
-
-    <div class="q" data-type="select" data-answer=">">
-      <b>3)</b> 2 m ___ 190 cm
-      <select>
-        <option value="">—</option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
-      </select>
-    </div>
-
-    <div class="q" data-type="select" data-answer="<">
-      <b>4)</b> 750 g ___ 1 kg
-      <select>
-        <option value="">—</option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
-      </select>
-    </div>
-
-    <div class="q" data-type="text" data-answer="500 g, 750 g, 1 kg, 1200 g">
-      <b>5)</b> Ordne von <b>leicht</b> nach <b>schwer</b>:<br>
-      1 kg – 500 g – 1200 g – 750 g
-      <div class="hint">Schreibe so: <b>500 g, 750 g, ...</b></div>
-      <input type="text" placeholder="Deine Reihenfolge" />
-    </div>
-
-    <div class="q" data-type="text" data-answer="1 m = 100 cm">
-      <b>6)</b> Ergänze richtig: 1 m = ____ cm (ganzer Satz)
-      <input type="text" placeholder="z.B. 1 m = 100 cm" />
-    </div>
-
-    <div class="result"></div>
-  </div>
-
-  <div class="card" id="summaryCard">
-    <div style="font-weight:900;">🏁 Gesamtresultat</div>
-    <div class="result" id="summary">Noch nicht geprüft.</div>
+    <div id="quizMount"></div>
   </div>
 </main>
 
 <div class="btnbar">
   <button id="checkBtn">✅ Prüfen</button>
-  <div class="smallbtns">
-    <button class="ghost" id="resetBtn" type="button">↩️ Zurücksetzen</button>
-    <button class="ghost" id="showBtn" type="button">👀 Lösungen anzeigen</button>
+  <div class="smallbtns3">
+    <button class="ghost" id="newBtn" type="button">🔄 Neue Runde</button>
+    <button class="ghost" id="resetBtn" type="button">↩️ Reset</button>
+    <button class="ghost" id="showBtn" type="button">👀 Lösungen</button>
   </div>
 </div>
 
-<script>
-  const norm=(s)=> (s??"").toString().trim().replace(/\s+/g," ").toLowerCase();
+<script type="module">
+  import { randInt, choice, renderQuiz, shuffle } from "./quizlib.js";
 
-  function isOk(q){
-    const type=q.dataset.type, ans=q.dataset.answer;
-    if(type==="select"){
-      return norm(q.querySelector("select").value)===norm(ans);
+  function cmp(a,b){ return a>b ? ">" : a<b ? "<" : "="; }
+
+  function build(){
+    const qs=[];
+
+    // 1) kg g vs g
+    {
+      const kg = randInt(1,2);
+      const g = choice([0,50,100,150,200,250,300,350,400,450,500,750,900]);
+      const left = kg*1000 + g;
+      const right = left + choice([-200,-100,0,100,200]);
+      const sign = cmp(left, right);
+      qs.push({
+        id:"q1",
+        type:"select",
+        promptHtml:`<b>1)</b> ${kg} kg ${g} g ___ ${right} g`,
+        options:[{v:">",label:">"},{v:"<",label:"<"},{v:"=",label:"="}],
+        answer: sign
+      });
     }
-    if(type==="text"){
-      return norm(q.querySelector("input").value)===norm(ans);
+
+    // 2) mm vs cm mm
+    {
+      const cm = randInt(4, 18);
+      const mm = choice([0,1,2,3,4,5,6,7,8,9]);
+      const rightCm = randInt(4, 18);
+      const rightMm = choice([0,1,2,3,4,5,6,7,8,9]);
+      const left = cm*10 + mm;
+      const right = rightCm*10 + rightMm;
+      qs.push({
+        id:"q2",
+        type:"select",
+        promptHtml:`<b>2)</b> ${left} mm ___ ${rightCm} cm ${rightMm} mm`,
+        options:[{v:">",label:">"},{v:"<",label:"<"},{v:"=",label:"="}],
+        answer: cmp(left, right)
+      });
     }
-    return false;
-  }
 
-  function render(card){
-    const qs=card.querySelectorAll(".q");
-    const box=card.querySelector(".result");
-    if(!qs.length||!box) return {ok:0,total:0};
-    let ok=0;
-    const msgs=[];
-    qs.forEach(q=>{
-      const good=isOk(q);
-      if(good) ok++;
-      msgs.push(good?'<span class="ok">✓ richtig</span>':'<span class="no">✗ falsch</span>');
+    // 3) m vs cm
+    {
+      const m = randInt(1,3);
+      const cm = m*100 + choice([-30,-10,0,10,25,40]);
+      qs.push({
+        id:"q3",
+        type:"select",
+        promptHtml:`<b>3)</b> ${m} m ___ ${cm} cm`,
+        options:[{v:">",label:">"},{v:"<",label:"<"},{v:"=",label:"="}],
+        answer: cmp(m*100, cm)
+      });
+    }
+
+    // 4) order 3 weights (choose correct)
+    {
+      const a = choice([200,250,300,350,400,450,500]);
+      const b = choice([600,650,700,750,800,850,900]);
+      const c = choice([1000,1100,1200,1300,1500]);
+      const triples = shuffle([
+        `${a} g, ${b} g, ${c} g`,
+        `${b} g, ${a} g, ${c} g`,
+        `${c} g, ${b} g, ${a} g`,
+        `${a} g, ${c} g, ${b} g`
+      ]);
+      qs.push({
+        id:"q4",
+        type:"select",
+        promptHtml:`<b>4)</b> Ordne von <b>leicht</b> nach <b>schwer</b>: ${a} g – ${b} g – ${c} g`,
+        options: triples.map(x=>({v:x,label:x})),
+        answer: `${a} g, ${b} g, ${c} g`
+      });
+    }
+
+    // 5) fill correct statement
+    qs.push({
+      id:"q5",
+      type:"select",
+      promptHtml:`<b>5)</b> Welche Aussage ist richtig?`,
+      options:[
+        {v:"a",label:"1 m = 10 cm"},
+        {v:"b",label:"1 m = 100 cm"},
+        {v:"c",label:"1 kg = 100 g"}
+      ],
+      answer:"b"
     });
-    box.innerHTML=`<b>${ok}/${qs.length}</b> richtig<br>`+msgs.join("<br>");
-    return {ok,total:qs.length};
+
+    return qs;
   }
 
-  function checkAll(){
-    let okT=0,totalT=0;
-    document.querySelectorAll(".card").forEach(c=>{ const r=render(c); okT+=r.ok; totalT+=r.total; });
-    const s=document.getElementById("summary");
-    s.innerHTML=`<b>${okT}/${totalT}</b> richtig. `+(okT===totalT?'<span class="ok">Top! 🎉</span>':'Weiter üben 💪');
-    document.getElementById("summaryCard").scrollIntoView({behavior:"smooth",block:"center"});
-  }
+  let api=null;
+  function newRound(){ api = renderQuiz({ mount:document.getElementById("quizMount"), questions: build() }); }
+  newRound(); // randomize on load
 
-  function resetAll(){
-    document.querySelectorAll("input").forEach(i=>i.value="");
-    document.querySelectorAll("select").forEach(s=>s.value="");
-    document.querySelectorAll(".result").forEach(r=>r.textContent="");
-    document.getElementById("summary").textContent="Noch nicht geprüft.";
-    window.scrollTo({top:0,behavior:"smooth"});
-  }
-
-  function showSolutions(){
-    document.querySelectorAll(".q").forEach(q=>{
-      const type=q.dataset.type, ans=q.dataset.answer;
-      if(type==="select"){
-        q.querySelector("select").value=ans;
-      } else if(type==="text"){
-        q.querySelector("input").value=q.dataset.answer;
-      }
-    });
-    checkAll();
-  }
-
-  document.getElementById("checkBtn").addEventListener("click",checkAll);
-  document.getElementById("resetBtn").addEventListener("click",resetAll);
-  document.getElementById("showBtn").addEventListener("click",showSolutions);
+  document.getElementById("checkBtn").addEventListener("click", ()=>api.check());
+  document.getElementById("resetBtn").addEventListener("click", ()=>api.reset());
+  document.getElementById("showBtn").addEventListener("click", ()=>api.showSolutions());
+  document.getElementById("newBtn").addEventListener("click", newRound);
 </script>
 </body>
 </html>
