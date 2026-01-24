@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mathe – Vergleichen & Ordnen</title>
+  <style>
+    :root{font-family:-apple-system,system-ui,Arial,sans-serif}
+    body{margin:0;background:radial-gradient(1100px 700px at 15% 0%,#fff4e8 0%,#f6f7fb 45%),radial-gradient(900px 600px at 90% 5%,#e9f5ff 0%,#f6f7fb 55%),#f6f7fb;color:#111}
+    header{position:sticky;top:0;background:rgba(246,247,251,.92);backdrop-filter:blur(10px);border-bottom:1px solid #e6e6ef;padding:14px;z-index:10}
+    h1{margin:0;font-size:18px;font-weight:900}
+    .sub{margin-top:6px;font-size:13px;opacity:.75;line-height:1.35}
+    main{max-width:980px;margin:0 auto;padding:14px 12px 90px}
+    .card{background:#fff;border:1px solid #e6e6ef;border-radius:18px;padding:14px;margin:10px 0;box-shadow:0 1px 0 rgba(0,0,0,.03)}
+    .badge{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:#111;color:#fff;font-weight:850;font-size:12px}
+    .titleRow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    .q{padding:12px;border-radius:16px;background:radial-gradient(600px 120px at 20% 0%,#fff8ea 0%,rgba(255,248,234,0) 60%),radial-gradient(600px 120px at 90% 10%,#eef7ff 0%,rgba(238,247,255,0) 60%),#fafaff;border:1px solid #ededff;margin:10px 0}
+    select,input[type="text"]{width:100%;padding:10px 12px;border-radius:14px;border:1px solid #d9d9e7;font-size:16px;background:#fff}
+    .result{margin-top:10px;padding:10px 12px;border-radius:14px;border:1px solid #e6e6ef;background:#fff}
+    .ok{color:#0a7a2f;font-weight:900}
+    .no{color:#b00020;font-weight:900}
+    .hint{margin-top:8px;font-size:13px;opacity:.75;line-height:1.35}
+    .btnbar{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,251,.92);backdrop-filter:blur(10px);border-top:1px solid #e6e6ef;padding:10px 12px}
+    button{width:100%;padding:12px 14px;border-radius:16px;border:0;background:#111;color:#fff;font-size:16px;font-weight:900}
+    .smallbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+    .ghost{background:#fff;color:#111;border:1px solid #d9d9e7}
+    .back a{display:inline-block;text-decoration:none;color:#111;border:1px solid #d9d9e7;background:#fff;padding:9px 12px;border-radius:999px;font-weight:850}
+  </style>
+</head>
+<body>
+<header>
+  <div class="titleRow">
+    <div>
+      <h1>⚖️ Mathe: Vergleichen & Ordnen</h1>
+      <div class="sub">&gt; &lt; = · ordnen · Lücken ergänzen</div>
+    </div>
+    <div class="badge">Level 2</div>
+  </div>
+</header>
+
+<main>
+  <div class="card back">
+    <a href="./index.html">⬅️ Zurück zur Startseite</a>
+    <div class="hint">Tipp: Erst <b>umrechnen</b>, dann vergleichen.</div>
+  </div>
+
+  <div class="card">
+    <div class="q" data-type="select" data-answer="=">
+      <b>1)</b> 1 kg 200 g ___ 1200 g
+      <select>
+        <option value="">—</option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+      </select>
+    </div>
+
+    <div class="q" data-type="select" data-answer="=">
+      <b>2)</b> 95 mm ___ 9 cm 5 mm
+      <select>
+        <option value="">—</option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+      </select>
+    </div>
+
+    <div class="q" data-type="select" data-answer=">">
+      <b>3)</b> 2 m ___ 190 cm
+      <select>
+        <option value="">—</option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+      </select>
+    </div>
+
+    <div class="q" data-type="select" data-answer="<">
+      <b>4)</b> 750 g ___ 1 kg
+      <select>
+        <option value="">—</option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+      </select>
+    </div>
+
+    <div class="q" data-type="text" data-answer="500 g, 750 g, 1 kg, 1200 g">
+      <b>5)</b> Ordne von <b>leicht</b> nach <b>schwer</b>:<br>
+      1 kg – 500 g – 1200 g – 750 g
+      <div class="hint">Schreibe so: <b>500 g, 750 g, ...</b></div>
+      <input type="text" placeholder="Deine Reihenfolge" />
+    </div>
+
+    <div class="q" data-type="text" data-answer="1 m = 100 cm">
+      <b>6)</b> Ergänze richtig: 1 m = ____ cm (ganzer Satz)
+      <input type="text" placeholder="z.B. 1 m = 100 cm" />
+    </div>
+
+    <div class="result"></div>
+  </div>
+
+  <div class="card" id="summaryCard">
+    <div style="font-weight:900;">🏁 Gesamtresultat</div>
+    <div class="result" id="summary">Noch nicht geprüft.</div>
+  </div>
+</main>
+
+<div class="btnbar">
+  <button id="checkBtn">✅ Prüfen</button>
+  <div class="smallbtns">
+    <button class="ghost" id="resetBtn" type="button">↩️ Zurücksetzen</button>
+    <button class="ghost" id="showBtn" type="button">👀 Lösungen anzeigen</button>
+  </div>
+</div>
+
+<script>
+  const norm=(s)=> (s??"").toString().trim().replace(/\s+/g," ").toLowerCase();
+
+  function isOk(q){
+    const type=q.dataset.type, ans=q.dataset.answer;
+    if(type==="select"){
+      return norm(q.querySelector("select").value)===norm(ans);
+    }
+    if(type==="text"){
+      return norm(q.querySelector("input").value)===norm(ans);
+    }
+    return false;
+  }
+
+  function render(card){
+    const qs=card.querySelectorAll(".q");
+    const box=card.querySelector(".result");
+    if(!qs.length||!box) return {ok:0,total:0};
+    let ok=0;
+    const msgs=[];
+    qs.forEach(q=>{
+      const good=isOk(q);
+      if(good) ok++;
+      msgs.push(good?'<span class="ok">✓ richtig</span>':'<span class="no">✗ falsch</span>');
+    });
+    box.innerHTML=`<b>${ok}/${qs.length}</b> richtig<br>`+msgs.join("<br>");
+    return {ok,total:qs.length};
+  }
+
+  function checkAll(){
+    let okT=0,totalT=0;
+    document.querySelectorAll(".card").forEach(c=>{ const r=render(c); okT+=r.ok; totalT+=r.total; });
+    const s=document.getElementById("summary");
+    s.innerHTML=`<b>${okT}/${totalT}</b> richtig. `+(okT===totalT?'<span class="ok">Top! 🎉</span>':'Weiter üben 💪');
+    document.getElementById("summaryCard").scrollIntoView({behavior:"smooth",block:"center"});
+  }
+
+  function resetAll(){
+    document.querySelectorAll("input").forEach(i=>i.value="");
+    document.querySelectorAll("select").forEach(s=>s.value="");
+    document.querySelectorAll(".result").forEach(r=>r.textContent="");
+    document.getElementById("summary").textContent="Noch nicht geprüft.";
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  function showSolutions(){
+    document.querySelectorAll(".q").forEach(q=>{
+      const type=q.dataset.type, ans=q.dataset.answer;
+      if(type==="select"){
+        q.querySelector("select").value=ans;
+      } else if(type==="text"){
+        q.querySelector("input").value=q.dataset.answer;
+      }
+    });
+    checkAll();
+  }
+
+  document.getElementById("checkBtn").addEventListener("click",checkAll);
+  document.getElementById("resetBtn").addEventListener("click",resetAll);
+  document.getElementById("showBtn").addEventListener("click",showSolutions);
+</script>
+</body>
+</html>
