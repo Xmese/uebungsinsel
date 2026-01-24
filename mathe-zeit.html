@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="./quiz-lib.js"></script>
+</head>
+<body>
+<script>
+  function buildZeit(rng){
+    const qs = [];
+
+    // A) Umrechnen gemischt
+    const m1 = rng.int(2, 9), s1 = rng.pick([5,10,15,20,25,30,35,40,45,50,55]);
+    qs.push({type:"num", prompt:`${m1} min ${s1} s = ____ s`, answer:String(m1*60+s1)});
+    const m2 = rng.int(9, 12), s2 = rng.pick([5,10,15,20,25,30,35,40,45,50,55]);
+    qs.push({type:"num", prompt:`${m2} min ${s2} s = ____ s`, answer:String(m2*60+s2)});
+
+    const t3 = rng.pick([185, 215, 370, 410, 480, 580, 600, 725]);
+    qs.push({type:"pair", prompt:`${t3} s = ____ min ____ s`, answer:[String(Math.floor(t3/60)), String(t3%60)], placeholders:["min","s"]});
+
+    const t4 = rng.int(120, 720);
+    const t4n = t4 - (t4 % 5);
+    qs.push({type:"pair", prompt:`${t4n} s = ____ min ____ s`, answer:[String(Math.floor(t4n/60)), String(t4n%60)], placeholders:["min","s"]});
+
+    const h = rng.int(1,2), min = rng.pick([10,15,20,25,30,35,40,45,50]);
+    qs.push({type:"num", prompt:`${h} h ${min} min = ____ min`, answer:String(h*60+min)});
+
+    const min2 = rng.pick([65, 75, 90, 95, 110, 125]);
+    qs.push({type:"pair", prompt:`${min2} min = ____ h ____ min`, answer:[String(Math.floor(min2/60)), String(min2%60)], placeholders:["h","min"]});
+
+    return qs;
+  }
+
+  function buildErgaenzen(rng){
+    const qs = [];
+    // complement to target
+    const base1m = rng.int(1,4), base1s = rng.pick([0,10,15,20,25,30,35,40,45,50]);
+    const target1m = base1m + 1;
+    const base1 = base1m*60 + base1s;
+    const target1 = target1m*60;
+    qs.push({type:"num", prompt:`${base1m} min ${base1s} s + ____ s = ${target1m} min`, answer:String(target1-base1)});
+
+    const base2m = rng.int(4,7);
+    const target2m = base2m + 1;
+    const target2s = rng.pick([5,10,15,20,25,30,35,40,45,50]);
+    const base2 = base2m*60;
+    const target2 = target2m*60 + target2s;
+    qs.push({type:"num", prompt:`${base2m} min + ____ s = ${target2m} min ${target2s} s`, answer:String(target2-base2)});
+
+    const targetH = 1, targetMin = rng.pick([30,45,50]);
+    const baseMin = rng.pick([5,10,15,20,25,35,40]);
+    qs.push({type:"num", prompt:`1 h ${baseMin} min + ____ min = 1 h ${targetMin} min`, answer:String(targetMin-baseMin)});
+
+    const b3m = rng.int(7,9), b3s = rng.pick([0,10,20,30,40,50]);
+    const t3m = b3m + 1;
+    const b3 = b3m*60 + b3s;
+    const t3 = t3m*60;
+    qs.push({type:"num", prompt:`${b3m} min ${b3s} s + ____ s = ${t3m} min`, answer:String(t3-b3)});
+
+    return qs;
+  }
+
+  function buildSach(rng){
+    const qs = [];
+    const a = rng.pick([12,15,18,20]);
+    const b = rng.pick([6,8,9,10]);
+    qs.push({type:"num", prompt:`Lina liest ${a} min. Danach liest sie nochmals ${b} min. Insgesamt: ____ min`, answer:String(a+b)});
+
+    const filmH = 1;
+    const filmMin = rng.pick([15,20,25,30]);
+    const watched = rng.pick([45,50,55,60]);
+    const total = filmH*60 + filmMin;
+    qs.push({type:"pair", prompt:`Ein Film dauert ${filmH} h ${filmMin} min. Nach ${watched} min Pause. Rest: ____ min`, 
+      checker:(inputs)=> {
+        const got = norm(inputs[0].value);
+        return got === String(total - watched);
+      },
+      fill:(inputs)=>{ inputs[0].value = String(total-watched); }
+    });
+
+    return qs;
+  }
+
+  function buildStimmt(rng){
+    const qs = [];
+    const s1 = rng.pick([2,3,4]);
+    qs.push({type:"choice", prompt:`In ${s1} Minuten gehen genau ${s1*60} Sekunden vorbei.`, answer:"richtig",
+      options:[{v:"richtig",label:"richtig"},{v:"falsch",label:"falsch"}]});
+
+    const half = rng.pick([15,30,45]);
+    const claim = half === 30 ? 25 : rng.pick([20,25,35]);
+    const isTrue = (half === 30 && claim === 30) ? false : false; // always false in this statement form
+    qs.push({type:"choice", prompt:`Eine halbe Stunde ist gleich lang wie ${claim} Minuten.`, answer:"falsch",
+      options:[{v:"richtig",label:"richtig"},{v:"falsch",label:"falsch"}]});
+
+    const s3 = rng.pick([70,90,110]);
+    qs.push({type:"choice", prompt:`${s3} Sekunden sind mehr als 1 Minute.`, answer:"richtig",
+      options:[{v:"richtig",label:"richtig"},{v:"falsch",label:"falsch"}]});
+
+    qs.push({type:"choice", prompt:`In 1 Stunde läuft der Sekundenzeiger 60 Mal im Kreis.`, answer:"richtig",
+      options:[{v:"richtig",label:"richtig"},{v:"falsch",label:"falsch"}]});
+
+    return qs;
+  }
+
+  QuizLib.createPage({
+    title:"⏱️ Mathe: Zeitdauer (Zeit messen & umrechnen)",
+    subtitle:"Minuten ↔ Sekunden · Stunden ↔ Minuten · ergänzen · Sachaufgaben · Stimmt das?",
+    badge:"Zeit",
+    backHref:"./index.html",
+    seedSalt:"zeit",
+    sections:[
+      { title:"A) Umrechnen – gemischt", build:buildZeit },
+      { title:"B) Ergänzen bis zur Zielzeit", build:buildErgaenzen },
+      { title:"C) Sachaufgaben Zeit", build:buildSach },
+      { title:"D) Stimmt das? (richtig/falsch)", build:buildStimmt },
+    ]
+  });
+
+  function norm(s){ return (s??"").toString().trim().toLowerCase(); }
+</script>
+</body>
+</html>
