@@ -10,187 +10,119 @@
     header{position:sticky;top:0;background:rgba(246,247,251,.92);backdrop-filter:blur(10px);border-bottom:1px solid #e6e6ef;padding:14px;z-index:10}
     h1{margin:0;font-size:18px;font-weight:900}
     .sub{margin-top:6px;font-size:13px;opacity:.75;line-height:1.35}
-    main{max-width:980px;margin:0 auto;padding:14px 12px 90px}
+    main{max-width:980px;margin:0 auto;padding:14px 12px 110px}
     .card{background:#fff;border:1px solid #e6e6ef;border-radius:18px;padding:14px;margin:10px 0;box-shadow:0 1px 0 rgba(0,0,0,.03)}
-    .titleRow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-    .badge{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:#111;color:#fff;font-weight:850;font-size:12px}
     .q{padding:12px;border-radius:16px;background:radial-gradient(600px 120px at 20% 0%,#fff8ea 0%,rgba(255,248,234,0) 60%),radial-gradient(600px 120px at 90% 10%,#eef7ff 0%,rgba(238,247,255,0) 60%),#fafaff;border:1px solid #ededff;margin:10px 0}
-    .q b{font-weight:900}
-    select,input[type="number"],input[type="text"]{width:100%;padding:10px 12px;border-radius:14px;border:1px solid #d9d9e7;font-size:16px;background:#fff}
+    input,select{width:100%;padding:10px 12px;border-radius:14px;border:1px solid #d9d9e7;font-size:16px;background:#fff}
     label{display:block;margin:8px 0}
-    .result{margin-top:10px;padding:10px 12px;border-radius:14px;border:1px solid #e6e6ef;background:#fff}
-    .ok{color:#0a7a2f;font-weight:900}
-    .no{color:#b00020;font-weight:900}
     .hint{margin-top:8px;font-size:13px;opacity:.75;line-height:1.35}
+    .result{margin-top:10px;padding:10px 12px;border-radius:14px;border:1px solid #e6e6ef;background:#fff}
     .btnbar{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,251,.92);backdrop-filter:blur(10px);border-top:1px solid #e6e6ef;padding:10px 12px}
     button{width:100%;padding:12px 14px;border-radius:16px;border:0;background:#111;color:#fff;font-size:16px;font-weight:900}
-    .smallbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+    .smallbtns3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
     .ghost{background:#fff;color:#111;border:1px solid #d9d9e7}
     .back a{display:inline-block;text-decoration:none;color:#111;border:1px solid #d9d9e7;background:#fff;padding:9px 12px;border-radius:999px;font-weight:850}
   </style>
 </head>
 <body>
 <header>
-  <div class="titleRow">
-    <div>
-      <h1>📏 Mathe: Masseinheiten & Referenzen</h1>
-      <div class="sub">mm / cm / m · g / kg · Schätzen mit Alltagsvergleich</div>
-    </div>
-    <div class="badge">Level 1</div>
-  </div>
+  <h1>📏 Mathe: Masseinheiten & Referenzen</h1>
+  <div class="sub">mm / cm / m · g / kg · realistisch schätzen</div>
 </header>
 
 <main>
   <div class="card back">
     <a href="./index.html">⬅️ Zurück zur Startseite</a>
-    <div class="hint">Tipp: Nicht raten → kurz nachdenken: „Was ist realistisch?“</div>
+    <div class="hint">Tipp: „Was ist realistisch?“</div>
   </div>
 
   <div class="card">
-    <div class="q" data-type="select" data-answer="mm">
-      <b>1)</b> Dicke eines Buchdeckels (nur der feste Umschlag):
-      <select>
-        <option value="">— wählen —</option>
-        <option>mm</option><option>cm</option><option>m</option><option>g</option><option>kg</option>
-      </select>
-    </div>
-
-    <div class="q" data-type="select" data-answer="cm">
-      <b>2)</b> Länge eines Bleistifts:
-      <select>
-        <option value="">— wählen —</option>
-        <option>mm</option><option>cm</option><option>m</option><option>g</option><option>kg</option>
-      </select>
-    </div>
-
-    <div class="q" data-type="select" data-answer="m">
-      <b>3)</b> Länge eines Fussballfeldes:
-      <select>
-        <option value="">— wählen —</option>
-        <option>mm</option><option>cm</option><option>m</option><option>g</option><option>kg</option>
-      </select>
-    </div>
-
-    <div class="q" data-type="select" data-answer="g">
-      <b>4)</b> Gewicht einer Erdbeere:
-      <select>
-        <option value="">— wählen —</option>
-        <option>mm</option><option>cm</option><option>m</option><option>g</option><option>kg</option>
-      </select>
-    </div>
-
-    <div class="q" data-type="select" data-answer="kg">
-      <b>5)</b> Gewicht eines Schulranzens:
-      <select>
-        <option value="">— wählen —</option>
-        <option>mm</option><option>cm</option><option>m</option><option>g</option><option>kg</option>
-      </select>
-    </div>
-
-    <div class="q" data-type="multi" data-answer="1,3,4,6">
-      <b>6)</b> Kreuze <b>alle realistischen</b> Aussagen an:
-      <label><input type="checkbox" value="1"> Ein Lineal ist etwa 30 cm lang.</label>
-      <label><input type="checkbox" value="2"> Ein Apfel wiegt etwa 5 kg.</label>
-      <label><input type="checkbox" value="3"> Eine Tafel Schokolade wiegt etwa 100 g.</label>
-      <label><input type="checkbox" value="4"> Ein Kind ist ungefähr 1–1.5 m gross.</label>
-      <label><input type="checkbox" value="5"> Ein Fussballfeld ist etwa 20 cm lang.</label>
-      <label><input type="checkbox" value="6"> Eine kleine Büroklammer ist ungefähr 3 cm lang.</label>
-      <div class="hint">Tipp: Stell es dir vor und vergleiche mit Dingen aus dem Alltag.</div>
-    </div>
-
-    <div class="q" data-type="select" data-answer="geschätzt">
-      <b>7)</b> „Das ist <i>etwa</i> 10 cm.“ → Das ist:
-      <select>
-        <option value="">— wählen —</option>
-        <option value="genau">genau</option>
-        <option value="geschätzt">geschätzt</option>
-      </select>
-    </div>
-
-    <div class="result"></div>
-  </div>
-
-  <div class="card" id="summaryCard">
-    <div style="font-weight:900;">🏁 Gesamtresultat</div>
-    <div class="result" id="summary">Noch nicht geprüft.</div>
+    <div id="quizMount"></div>
   </div>
 </main>
 
 <div class="btnbar">
   <button id="checkBtn">✅ Prüfen</button>
-  <div class="smallbtns">
-    <button class="ghost" id="resetBtn" type="button">↩️ Zurücksetzen</button>
-    <button class="ghost" id="showBtn" type="button">👀 Lösungen anzeigen</button>
+  <div class="smallbtns3">
+    <button class="ghost" id="newBtn" type="button">🔄 Neue Runde</button>
+    <button class="ghost" id="resetBtn" type="button">↩️ Reset</button>
+    <button class="ghost" id="showBtn" type="button">👀 Lösungen</button>
   </div>
 </div>
 
-<script>
-  const norm = (s)=> (s??"").toString().trim().replace(/\s+/g," ").toLowerCase();
+<script type="module">
+  import { renderQuiz, shuffle } from "./quizlib.js";
 
-  function checkQuestion(q){
-    const type=q.dataset.type, ans=q.dataset.answer;
-    if(type==="select"){
-      const sel=q.querySelector("select");
-      return norm(sel.value)===norm(ans);
-    }
-    if(type==="multi"){
-      const want=ans.split(",").map(norm).sort().join(",");
-      const got=Array.from(q.querySelectorAll("input[type=checkbox]:checked")).map(x=>norm(x.value)).sort().join(",");
-      return got===want;
-    }
-    return false;
-  }
+  function build(){
+    const unitOptions = [
+      {v:"mm",label:"mm"},{v:"cm",label:"cm"},{v:"m",label:"m"},{v:"g",label:"g"},{v:"kg",label:"kg"}
+    ];
 
-  function renderCard(card){
-    const qs=card.querySelectorAll(".q");
-    const box=card.querySelector(".result");
-    if(!qs.length||!box) return {ok:0,total:0};
-    let ok=0;
-    const msgs=[];
-    qs.forEach(q=>{
-      const good=checkQuestion(q);
-      if(good) ok++;
-      msgs.push(good?'<span class="ok">✓ richtig</span>':'<span class="no">✗ falsch</span>');
+    const items = shuffle([
+      {t:"Dicke eines Buchdeckels (Umschlag)", a:"mm"},
+      {t:"Länge eines Bleistifts", a:"cm"},
+      {t:"Höhe einer Tür", a:"m"},
+      {t:"Länge eines Tisches", a:"m"},
+      {t:"Breite eines Fingers", a:"cm"},
+      {t:"Gewicht einer Erdbeere", a:"g"},
+      {t:"Gewicht eines Schulranzens", a:"kg"},
+      {t:"Gewicht einer Schokolade", a:"g"},
+      {t:"Länge eines Lineals", a:"cm"},
+      {t:"Dicke eines Blattes Papier", a:"mm"}
+    ]).slice(0,6);
+
+    const qs = items.map((x,i)=>({
+      id:"u"+i,
+      type:"select",
+      promptHtml:`<b>${i+1})</b> ${x.t}:`,
+      options: unitOptions,
+      answer: x.a
+    }));
+
+    // Realistisch? (multi)
+    const statements = shuffle([
+      {v:"1",label:"Ein Lineal ist etwa 30 cm lang.", ok:true},
+      {v:"2",label:"Ein Apfel wiegt etwa 5 kg.", ok:false},
+      {v:"3",label:"Eine Tafel Schokolade wiegt etwa 100 g.", ok:true},
+      {v:"4",label:"Ein Kind ist ungefähr 1–1.5 m gross.", ok:true},
+      {v:"5",label:"Ein Fussballfeld ist etwa 20 cm lang.", ok:false},
+      {v:"6",label:"Eine Büroklammer ist ungefähr 3 cm lang.", ok:true}
+    ]).slice(0,5);
+
+    const want = statements.filter(s=>s.ok).map(s=>s.v).sort().join(",");
+
+    qs.push({
+      id:"m1",
+      type:"multi",
+      promptHtml:`<b>7)</b> Kreuze <b>alle realistischen</b> Aussagen an:`,
+      options: statements.map(s=>({v:s.v,label:s.label})),
+      answer: want,
+      explain:"Tipp: Stell es dir vor und vergleiche mit Alltagssachen."
     });
-    box.innerHTML=`<b>${ok}/${qs.length}</b> richtig<br>`+msgs.join("<br>");
-    return {ok,total:qs.length};
-  }
 
-  function checkAll(){
-    let okT=0,totalT=0;
-    document.querySelectorAll(".card").forEach(card=>{
-      const r=renderCard(card);
-      okT+=r.ok; totalT+=r.total;
+    // Genau vs. geschätzt
+    qs.push({
+      id:"s1",
+      type:"select",
+      promptHtml:`<b>8)</b> „Das ist <i>etwa</i> 10 cm.“ → Das ist:`,
+      options:[{v:"genau",label:"genau"},{v:"geschätzt",label:"geschätzt"}],
+      answer:"geschätzt"
     });
-    const summary=document.getElementById("summary");
-    summary.innerHTML=`<b>${okT}/${totalT}</b> richtig. `+(okT===totalT?'<span class="ok">Super! 🎉</span>':'Weiter üben 💪');
-    document.getElementById("summaryCard").scrollIntoView({behavior:"smooth",block:"center"});
+
+    return qs;
   }
 
-  function resetAll(){
-    document.querySelectorAll("input").forEach(i=>{ if(i.type==="checkbox") i.checked=false; else i.value=""; });
-    document.querySelectorAll("select").forEach(s=>s.value="");
-    document.querySelectorAll(".result").forEach(r=>r.textContent="");
-    document.getElementById("summary").textContent="Noch nicht geprüft.";
-    window.scrollTo({top:0,behavior:"smooth"});
+  let api=null;
+  function newRound(){
+    api = renderQuiz({ mount:document.getElementById("quizMount"), questions: build() });
   }
+  newRound(); // randomize on load
 
-  function showSolutions(){
-    document.querySelectorAll(".q").forEach(q=>{
-      const type=q.dataset.type, ans=q.dataset.answer;
-      if(type==="select"){
-        q.querySelector("select").value=ans;
-      } else if(type==="multi"){
-        const wants=ans.split(",").map(x=>x.trim());
-        q.querySelectorAll("input[type=checkbox]").forEach(cb=>cb.checked=wants.includes(cb.value));
-      }
-    });
-    checkAll();
-  }
-
-  document.getElementById("checkBtn").addEventListener("click",checkAll);
-  document.getElementById("resetBtn").addEventListener("click",resetAll);
-  document.getElementById("showBtn").addEventListener("click",showSolutions);
+  document.getElementById("checkBtn").addEventListener("click", ()=>api.check());
+  document.getElementById("resetBtn").addEventListener("click", ()=>api.reset());
+  document.getElementById("showBtn").addEventListener("click", ()=>api.showSolutions());
+  document.getElementById("newBtn").addEventListener("click", newRound);
 </script>
 </body>
 </html>
+
