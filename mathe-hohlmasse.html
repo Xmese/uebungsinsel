@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="./quiz-lib.js"></script>
+</head>
+<body>
+<script>
+  function buildErgaenzen(rng){
+    const qs = [];
+    const targets = [100, 250, 500, 1000];
+    for (let i=0;i<6;i++){
+      const T = rng.pick(targets);
+      const a = rng.int(1, T-1);
+      qs.push({type:"num", prompt:`${a} ml + ____ ml = ${T===1000 ? "1 l" : T+" ml"}`, answer:String(T-a)});
+    }
+    return qs;
+  }
+
+  function buildUmrechnen(rng){
+    const qs = [];
+    const ml = rng.pick([750, 950, 1200, 1350, 1800]);
+    qs.push({type:"pair", prompt:`${ml} ml = ____ l ____ ml`, answer:[String(Math.floor(ml/1000)), String(ml%1000)], placeholders:["l","ml"]});
+
+    const l = rng.pick([1,2]); const rest = rng.pick([50, 200, 275, 450, 650, 900]);
+    qs.push({type:"num", prompt:`${l} l ${rest} ml = ____ ml`, answer:String(l*1000+rest)});
+
+    const times = rng.pick([2,3,4]); const base = rng.pick([150,200,250]);
+    qs.push({type:"num", prompt:`${times} × ${base} ml = ____ ml`, answer:String(times*base)});
+
+    const total = rng.pick([2000,1500,1000]); const sub = rng.pick([150,250,350,450,600]);
+    qs.push({type:"num", prompt:`${total} ml − ${sub} ml = ____ ml`, answer:String(total-sub)});
+    return qs;
+  }
+
+  function buildSchaetzen(rng){
+    const qs = [];
+    const glass = rng.pick([100,250,1000]);
+    qs.push({type:"choice", prompt:`Ein Trinkglas fasst eher …`, answer:String(glass),
+      options:[{v:"100",label:"100 ml"},{v:"250",label:"250 ml"},{v:"1000",label:"1 l"}]});
+
+    const bucket = rng.pick([2,5,10]);
+    qs.push({type:"choice", prompt:`Ein Putzeimer fasst eher …`, answer:String(bucket),
+      options:[{v:"2",label:"2 l"},{v:"5",label:"5 l"},{v:"10",label:"10 l"}]});
+
+    const shampoo = rng.pick([50,250,2000]);
+    qs.push({type:"choice", prompt:`Eine Shampoo-Flasche hat eher …`, answer:String(shampoo),
+      options:[{v:"50",label:"50 ml"},{v:"250",label:"250 ml"},{v:"2000",label:"2 l"}]});
+    return qs;
+  }
+
+  function buildStimmt(rng){
+    const qs = [];
+    qs.push({type:"choice", prompt:`500 ml sind genau ein halber Liter.`, answer:"richtig",
+      options:[{v:"richtig",label:"richtig"},{v:"falsch",label:"falsch"}]});
+    qs.push({type:"choice", prompt:`Ein Liter ist gleich viel wie 1000 ml.`, answer:"richtig",
+      options:[{v:"richtig",label:"richtig"},{v:"falsch",label:"falsch"}]});
+    qs.push({type:"choice", prompt:`1 Liter ist weniger als 800 Milliliter.`, answer:"falsch",
+      options:[{v:"richtig",label:"richtig"},{v:"falsch",label:"falsch"}]});
+    qs.push({type:"choice", prompt:`In ein Trinkglas passen mehr als 100 ml.`, answer:"richtig",
+      options:[{v:"richtig",label:"richtig"},{v:"falsch",label:"falsch"}]});
+    return qs;
+  }
+
+  QuizLib.createPage({
+    title:"🥤 Mathe: Hohlmasse (ml & l)",
+    subtitle:"Ergänzen bis Zielmenge · umrechnen · schätzen · Stimmt das?",
+    badge:"Hohlmasse",
+    backHref:"./index.html",
+    seedSalt:"hohlmasse",
+    sections:[
+      { title:"A) Ergänzen bis zur Zielmenge", build:buildErgaenzen },
+      { title:"B) Umrechnen", build:buildUmrechnen },
+      { title:"C) Schätzen & Entscheiden", build:buildSchaetzen },
+      { title:"D) Stimmt das? (richtig/falsch)", build:buildStimmt }
+    ]
+  });
+</script>
+</body>
+</html>
