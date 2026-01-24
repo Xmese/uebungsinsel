@@ -10,183 +10,141 @@
     header{position:sticky;top:0;background:rgba(246,247,251,.92);backdrop-filter:blur(10px);border-bottom:1px solid #e6e6ef;padding:14px;z-index:10}
     h1{margin:0;font-size:18px;font-weight:900}
     .sub{margin-top:6px;font-size:13px;opacity:.75;line-height:1.35}
-    main{max-width:980px;margin:0 auto;padding:14px 12px 90px}
+    main{max-width:980px;margin:0 auto;padding:14px 12px 110px}
     .card{background:#fff;border:1px solid #e6e6ef;border-radius:18px;padding:14px;margin:10px 0;box-shadow:0 1px 0 rgba(0,0,0,.03)}
-    .badge{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:#111;color:#fff;font-weight:850;font-size:12px}
-    .titleRow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
     .q{padding:12px;border-radius:16px;background:radial-gradient(600px 120px at 20% 0%,#fff8ea 0%,rgba(255,248,234,0) 60%),radial-gradient(600px 120px at 90% 10%,#eef7ff 0%,rgba(238,247,255,0) 60%),#fafaff;border:1px solid #ededff;margin:10px 0}
-    .q b{font-weight:900}
-    input[type="number"]{width:100%;padding:10px 12px;border-radius:14px;border:1px solid #d9d9e7;font-size:16px;background:#fff}
-    .inline2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .inline3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-    .result{margin-top:10px;padding:10px 12px;border-radius:14px;border:1px solid #e6e6ef;background:#fff}
-    .ok{color:#0a7a2f;font-weight:900}
-    .no{color:#b00020;font-weight:900}
+    input,select{width:100%;padding:10px 12px;border-radius:14px;border:1px solid #d9d9e7;font-size:16px;background:#fff}
     .hint{margin-top:8px;font-size:13px;opacity:.75;line-height:1.35}
     .btnbar{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,251,.92);backdrop-filter:blur(10px);border-top:1px solid #e6e6ef;padding:10px 12px}
     button{width:100%;padding:12px 14px;border-radius:16px;border:0;background:#111;color:#fff;font-size:16px;font-weight:900}
-    .smallbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+    .smallbtns3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
     .ghost{background:#fff;color:#111;border:1px solid #d9d9e7}
     .back a{display:inline-block;text-decoration:none;color:#111;border:1px solid #d9d9e7;background:#fff;padding:9px 12px;border-radius:999px;font-weight:850}
   </style>
 </head>
 <body>
 <header>
-  <div class="titleRow">
-    <div>
-      <h1>🔁 Mathe: Umrechnen – gemischt</h1>
-      <div class="sub">mm↔cm · cm+mm · g↔kg · kg+g (Prüfungsniveau)</div>
-    </div>
-    <div class="badge">Level 2</div>
-  </div>
+  <h1>🔁 Mathe: Umrechnen – gemischt</h1>
+  <div class="sub">mm↔cm · cm+mm · g↔kg · kg+g</div>
 </header>
 
 <main>
   <div class="card back">
     <a href="./index.html">⬅️ Zurück zur Startseite</a>
-    <div class="hint">Merksatz: <b>1 cm = 10 mm</b> · <b>1 kg = 1000 g</b></div>
+    <div class="hint">Merke: <b>1 cm = 10 mm</b> · <b>1 kg = 1000 g</b></div>
   </div>
 
   <div class="card">
-    <div class="q" data-type="num" data-answer="45">
-      <b>1)</b> 4 cm 5 mm = ____ mm
-      <input type="number" inputmode="numeric" />
-    </div>
-
-    <div class="q" data-type="num" data-answer="12">
-      <b>2)</b> 120 mm = ____ cm
-      <input type="number" inputmode="numeric" />
-    </div>
-
-    <div class="q" data-type="pair" data-answer="9|0">
-      <b>3)</b> 90 mm = ____ cm ____ mm
-      <div class="inline2">
-        <input type="number" inputmode="numeric" placeholder="cm" />
-        <input type="number" inputmode="numeric" placeholder="mm" />
-      </div>
-    </div>
-
-    <div class="q" data-type="pair" data-answer="1|750">
-      <b>4)</b> 1750 g = ____ kg ____ g
-      <div class="inline2">
-        <input type="number" inputmode="numeric" placeholder="kg" />
-        <input type="number" inputmode="numeric" placeholder="g" />
-      </div>
-    </div>
-
-    <div class="q" data-type="num" data-answer="2250">
-      <b>5)</b> 2 kg 250 g = ____ g
-      <input type="number" inputmode="numeric" />
-    </div>
-
-    <div class="q" data-type="pair" data-answer="3|6">
-      <b>6)</b> 36 mm = ____ cm ____ mm
-      <div class="inline2">
-        <input type="number" inputmode="numeric" placeholder="cm" />
-        <input type="number" inputmode="numeric" placeholder="mm" />
-      </div>
-    </div>
-
-    <div class="q" data-type="triple" data-answer="150|150|150">
-      <b>7)</b> 450 g = ____ g + ____ g + ____ g
-      <div class="inline3">
-        <input type="number" inputmode="numeric" />
-        <input type="number" inputmode="numeric" />
-        <input type="number" inputmode="numeric" />
-      </div>
-      <div class="hint">Tipp: Eine Aufgabe hat mehrere richtige Lösungen. Hier üben wir „gleich aufteilen“.</div>
-    </div>
-
-    <div class="result"></div>
-  </div>
-
-  <div class="card" id="summaryCard">
-    <div style="font-weight:900;">🏁 Gesamtresultat</div>
-    <div class="result" id="summary">Noch nicht geprüft.</div>
+    <div id="quizMount"></div>
   </div>
 </main>
 
 <div class="btnbar">
   <button id="checkBtn">✅ Prüfen</button>
-  <div class="smallbtns">
-    <button class="ghost" id="resetBtn" type="button">↩️ Zurücksetzen</button>
-    <button class="ghost" id="showBtn" type="button">👀 Lösungen anzeigen</button>
+  <div class="smallbtns3">
+    <button class="ghost" id="newBtn" type="button">🔄 Neue Runde</button>
+    <button class="ghost" id="resetBtn" type="button">↩️ Reset</button>
+    <button class="ghost" id="showBtn" type="button">👀 Lösungen</button>
   </div>
 </div>
 
-<script>
-  const norm=(s)=> (s??"").toString().trim();
-  const getNums=(q)=> Array.from(q.querySelectorAll("input")).map(i=>norm(i.value));
+<script type="module">
+  import { randInt, choice, renderQuiz } from "./quizlib.js";
 
-  function isOk(q){
-    const type=q.dataset.type, ans=q.dataset.answer;
-    if(type==="num"){
-      return norm(q.querySelector("input").value)===norm(ans);
+  function build(){
+    const qs=[];
+
+    // 1) x cm y mm -> mm
+    {
+      const cm = randInt(2, 18);
+      const mm = choice([0,1,2,3,4,5,6,7,8,9]);
+      qs.push({
+        id:"q1", type:"num",
+        promptHtml:`<b>1)</b> ${cm} cm ${mm} mm = ____ mm`,
+        answer:String(cm*10 + mm)
+      });
     }
-    if(type==="pair"){
-      const [a,b]=ans.split("|").map(norm);
-      const [x,y]=getNums(q);
-      return x===a && y===b;
+
+    // 2) mm -> cm
+    {
+      const cm = randInt(6, 30);
+      qs.push({
+        id:"q2", type:"num",
+        promptHtml:`<b>2)</b> ${cm*10} mm = ____ cm`,
+        answer:String(cm)
+      });
     }
-    if(type==="triple"){
-      const [a,b,c]=ans.split("|").map(norm);
-      const [x,y,z]=getNums(q);
-      return x===a && y===b && z===c;
+
+    // 3) mm -> cm mm
+    {
+      const cm = randInt(3, 15);
+      const mm = choice([1,2,3,4,5,6,7,8,9]);
+      const total = cm*10 + mm;
+      qs.push({
+        id:"q3", type:"pair",
+        promptHtml:`<b>3)</b> ${total} mm = ____ cm ____ mm`,
+        answer:`${cm}|${mm}`
+      });
     }
-    return false;
+
+    // 4) g -> kg g
+    {
+      const kg = randInt(1, 3);
+      const rest = choice([50,120,250,350,450,600,750,900]);
+      const total = kg*1000 + rest;
+      qs.push({
+        id:"q4", type:"pair",
+        promptHtml:`<b>4)</b> ${total} g = ____ kg ____ g`,
+        answer:`${kg}|${rest}`
+      });
+    }
+
+    // 5) kg g -> g
+    {
+      const kg = randInt(1, 4);
+      const rest = choice([0,50,100,150,200,250,300,350,400,450,500,750]);
+      qs.push({
+        id:"q5", type:"num",
+        promptHtml:`<b>5)</b> ${kg} kg ${rest} g = ____ g`,
+        answer:String(kg*1000 + rest)
+      });
+    }
+
+    // 6) tricky subtraction in mm
+    {
+      const a = randInt(40, 180); // mm
+      const b = randInt(10, 39);  // mm
+      qs.push({
+        id:"q6", type:"num",
+        promptHtml:`<b>6)</b> ${a} mm − ${b} mm = ____ mm`,
+        answer:String(a-b)
+      });
+    }
+
+    // 7) time to keep variety (still measurement)
+    {
+      const min = randInt(2, 9);
+      const sec = choice([10,20,30,40,50]);
+      qs.push({
+        id:"q7", type:"num",
+        promptHtml:`<b>7)</b> ${min} min ${sec} s = ____ s`,
+        answer:String(min*60 + sec),
+        explain:"Bonus: Zeit ist auch eine Masseinheit 😉"
+      });
+    }
+
+    return qs;
   }
 
-  function render(card){
-    const qs=card.querySelectorAll(".q");
-    const box=card.querySelector(".result");
-    if(!qs.length||!box) return {ok:0,total:0};
-    let ok=0;
-    const msgs=[];
-    qs.forEach(q=>{
-      const good=isOk(q);
-      if(good) ok++;
-      msgs.push(good?'<span class="ok">✓ richtig</span>':'<span class="no">✗ falsch</span>');
-    });
-    box.innerHTML=`<b>${ok}/${qs.length}</b> richtig<br>`+msgs.join("<br>");
-    return {ok,total:qs.length};
-  }
+  let api=null;
+  function newRound(){ api = renderQuiz({ mount:document.getElementById("quizMount"), questions: build() }); }
+  newRound(); // randomize on load
 
-  function checkAll(){
-    let okT=0,totalT=0;
-    document.querySelectorAll(".card").forEach(c=>{ const r=render(c); okT+=r.ok; totalT+=r.total; });
-    const s=document.getElementById("summary");
-    s.innerHTML=`<b>${okT}/${totalT}</b> richtig. `+(okT===totalT?'<span class="ok">Mega! 🎉</span>':'Weiter üben 💪');
-    document.getElementById("summaryCard").scrollIntoView({behavior:"smooth",block:"center"});
-  }
-
-  function resetAll(){
-    document.querySelectorAll("input").forEach(i=>i.value="");
-    document.querySelectorAll(".result").forEach(r=>r.textContent="");
-    document.getElementById("summary").textContent="Noch nicht geprüft.";
-    window.scrollTo({top:0,behavior:"smooth"});
-  }
-
-  function showSolutions(){
-    document.querySelectorAll(".q").forEach(q=>{
-      const type=q.dataset.type, ans=q.dataset.answer;
-      if(type==="num"){
-        q.querySelector("input").value=ans;
-      } else if(type==="pair"){
-        const [a,b]=ans.split("|");
-        const inps=q.querySelectorAll("input");
-        inps[0].value=a; inps[1].value=b;
-      } else if(type==="triple"){
-        const [a,b,c]=ans.split("|");
-        const inps=q.querySelectorAll("input");
-        inps[0].value=a; inps[1].value=b; inps[2].value=c;
-      }
-    });
-    checkAll();
-  }
-
-  document.getElementById("checkBtn").addEventListener("click",checkAll);
-  document.getElementById("resetBtn").addEventListener("click",resetAll);
-  document.getElementById("showBtn").addEventListener("click",showSolutions);
+  document.getElementById("checkBtn").addEventListener("click", ()=>api.check());
+  document.getElementById("resetBtn").addEventListener("click", ()=>api.reset());
+  document.getElementById("showBtn").addEventListener("click", ()=>api.showSolutions());
+  document.getElementById("newBtn").addEventListener("click", newRound);
 </script>
 </body>
 </html>
+
