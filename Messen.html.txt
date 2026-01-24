@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Messen & Umrechnen – Interaktives Üben (3. Klasse)</title>
+  <style>
+    :root { font-family: -apple-system, system-ui, Arial, sans-serif; }
+    body { margin: 0; background: #f6f7fb; color: #111; }
+    header { padding: 18px 16px; background: #fff; border-bottom: 1px solid #e6e6ef; position: sticky; top: 0; }
+    h1 { font-size: 18px; margin: 0 0 6px 0; }
+    .sub { font-size: 13px; opacity: .75; }
+    main { padding: 14px 12px 90px; max-width: 900px; margin: 0 auto; }
+    .card { background: #fff; border: 1px solid #e6e6ef; border-radius: 14px; padding: 14px; margin: 10px 0; box-shadow: 0 1px 0 rgba(0,0,0,.03); }
+    .row { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    @media (min-width: 760px){ .row { grid-template-columns: 1fr 1fr; } }
+    .qtitle { font-weight: 650; margin-bottom: 6px; }
+    .q { padding: 10px; border-radius: 12px; background: #fafaff; border: 1px solid #ededff; }
+    label { display: block; margin: 6px 0; }
+    input[type="text"], input[type="number"], select {
+      width: 100%; padding: 10px 12px; border-radius: 12px; border: 1px solid #d9d9e7;
+      font-size: 16px; background: #fff;
+    }
+    .inline { display: grid; grid-template-columns: 1fr 110px; gap: 10px; align-items: center; }
+    .unitbox { font-size: 14px; opacity: .8; padding: 10px 12px; border: 1px dashed #d9d9e7; border-radius: 12px; background: #fff; text-align: center; }
+    .btnbar { position: fixed; left: 0; right: 0; bottom: 0; background: rgba(246,247,251,.92); backdrop-filter: blur(8px);
+      border-top: 1px solid #e6e6ef; padding: 10px 12px; }
+    button { width: 100%; padding: 12px 14px; border-radius: 14px; border: 0; background: #111; color: #fff; font-size: 16px; font-weight: 650; }
+    .smallbtns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;}
+    .ghost { background: #fff; color: #111; border: 1px solid #d9d9e7; }
+    .result { margin-top: 10px; padding: 10px 12px; border-radius: 12px; border: 1px solid #e6e6ef; background: #fff; }
+    .ok { color: #0a7a2f; font-weight: 650; }
+    .no { color: #b00020; font-weight: 650; }
+    .hint { margin-top: 6px; font-size: 14px; opacity: .85; }
+    .pill { display:inline-block; padding: 2px 8px; border-radius: 999px; background:#111; color:#fff; font-size:12px; margin-left:6px;}
+    .divider { height: 1px; background: #e6e6ef; margin: 10px 0; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Messen & Umrechnen – Interaktives Üben</h1>
+  <div class="sub">3. Klasse Primarschule · Längen & Gewichte · Schätzen · Umrechnen · Fehlersuche</div>
+</header>
+
+<main>
+  <div class="card">
+    <div class="qtitle">Anleitung</div>
+    <div class="hint">
+      1) Löse die Aufgaben. 2) Tippe unten <b>Prüfen</b>. 3) Korrigiere und prüfe erneut.<br>
+      Tipp: Bei Textfeldern sind Leerzeichen egal. Gross-/Kleinschreibung ist egal.
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="card">
+      <div class="qtitle">1. Richtige Masseinheit <span class="pill">schwer</span></div>
+
+      <div class="q" data-type="select" data-answer="mm">
+        a) Dicke eines Buchdeckels:
+        <select>
+          <option value="">— wählen —</option>
+          <option>mm</option><option>cm</option><option>m</option><option>g</option><option>kg</option>
+        </select>
+      </div>
+
+      <div class="q" data-type="select" data-answer="m">
+        b) Länge eines Fussballfeldes:
+        <select>
+          <option value="">— wählen —</option>
+          <option>mm</option><option>cm</option><option>m</option><option>g</option><option>kg</option>
+        </select>
+      </div>
+
+      <div class="q" data-type="select" data-answer="g">
+        c) Gewicht einer Erdbeere:
+        <select>
+          <option value="">— wählen —</option>
+          <option>mm</option><option>cm</option><option>m</option><option>g</option><option>kg</option>
+        </select>
+      </div>
+
+      <div class="q" data-type="select" data-answer="kg">
+        d) Gewicht eines Fahrrads:
+        <select>
+          <option value="">— wählen —</option>
+          <option>mm</option><option>cm</option><option>m</option><option>g</option><option>kg</option>
+        </select>
+      </div>
+
+      <div class="q" data-type="select" data-answer="cm">
+        e) Breite einer Tür:
+        <select>
+          <option value="">— wählen —</option>
+          <option>mm</option><option>cm</option><option>m</option><option>g</option><option>kg</option>
+        </select>
+      </div>
+
+      <div class="result"></div>
+    </div>
+
+    <div class="card">
+      <div class="qtitle">2. Referenzgrössen – Aussagen</div>
+
+      <div class="q" data-type="multi" data-answer="1,3,4">
+        Kreuze <b>alle richtigen</b> Aussagen an:
+        <label><input type="checkbox" value="1"> Ein Lineal ist etwa 30 cm lang.</label>
+        <label><input type="checkbox" value="2"> Ein Apfel wiegt etwa 1 kg.</label>
+        <label><input type="checkbox" value="3"> Ein Kind ist ungefähr 1–1.5 m gross.</label>
+        <label><input type="checkbox" value="4"> Eine Tafel Schokolade wiegt etwa 100 g.</label>
+        <label><input type="checkbox" value="5"> Ein Bleistift ist etwa 1 m lang.</label>
+        <div class="hint">Tipp: Es sind mehrere richtig.</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="qtitle">3. Umrechnen – gemischt</div>
+
+      <div class="q" data-type="text" data-answer="45">
+        a) 4 cm 5 mm = ____ mm
+        <div class="inline">
+          <input type="number" inputmode="numeric" />
+          <div class="unitbox">mm</div>
+        </div>
+      </div>
+
+      <div class="q" data-type="text" data-answer="1250">
+        b) 1 kg 250 g = ____ g
+        <div class="inline">
+          <input type="number" inputmode="numeric" />
+          <div class="unitbox">g</div>
+        </div>
+      </div>
+
+      <div class="q" data-type="pair" data-answer="9|0">
+        c) 90 mm = ____ cm ____ mm
+        <div class="inline">
+          <input type="number" inputmode="numeric" placeholder="cm" />
+          <input type="number" inputmode="numeric" placeholder="mm" />
+        </div>
+      </div>
+
+      <div class="q" data-type="pair" data-answer="1|750">
+        d) 1750 g = ____ kg ____ g
+        <div class="inline">
+          <input type="number" inputmode="numeric" placeholder="kg" />
+          <input type="number" inputmode="numeric" placeholder="g" />
+        </div>
+      </div>
+
+      <div class="result"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="qtitle">4. Fehlersuche</div>
+
+    <div class="q" data-type="text" data-answer="3 cm = 30 mm">
+      a) Korrigiere: „3 cm = 3 mm“ → ______________________
+      <input type="text" placeholder="z.B. 3 cm = 30 mm" />
+      <div class="hint">Tipp: 1 cm = 10 mm</div>
+    </div>
+
+    <div class="q" data-type="text" data-answer="2 kg = 2000 g">
+      b) Korrigiere: „2 kg = 200 g“ → ______________________
+      <input type="text" placeholder="z.B. 2 kg = 2000 g" />
+    </div>
+
+    <div class="q" data-type="select" data-answer="richtig">
+      c) „40 mm = 4 cm“ ist:
+      <select>
+        <option value="">— wählen —</option>
+        <option value="richtig">richtig</option>
+        <option value="falsch">falsch</option>
+      </select>
+    </div>
+
+    <div class="result"></div>
+  </div>
+
+  <div class="row">
+    <div class="card">
+      <div class="qtitle">5. Vergleichen (>, <, =)</div>
+
+      <div class="q" data-type="select" data-answer="=">
+        a) 1 kg 200 g ___ 1200 g
+        <select>
+          <option value="">—</option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+        </select>
+      </div>
+
+      <div class="q" data-type="select" data-answer="=">
+        b) 95 mm ___ 9 cm 5 mm
+        <select>
+          <option value="">—</option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+        </select>
+      </div>
+
+      <div class="q" data-type="select" data-answer=">">
+        c) 2 m ___ 190 cm
+        <select>
+          <option value="">—</option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+        </select>
+      </div>
+
+      <div class="q" data-type="select" data-answer="=">
+        d) 500 g + 500 g ___ 1 kg
+        <select>
+          <option value="">—</option><option value=">">&gt;</option><option value="<">&lt;</option><option value="=">=</option>
+        </select>
+      </div>
+
+      <div class="result"></div>
+    </div>
+
+    <div class="card">
+      <div class="qtitle">6. Sachaufgaben (mehrere Schritte)</div>
+
+      <div class="q" data-type="text" data-answer="240">
+        a) Ein Seil ist 2 m 40 cm lang. Wie lang in cm?
+        <div class="inline">
+          <input type="number" inputmode="numeric" />
+          <div class="unitbox">cm</div>
+        </div>
+      </div>
+
+      <div class="q" data-type="pair" data-answer="900|0">
+        b) Apfel: 180 g. Brot ist 5× so schwer. Gewicht in g und dann in kg/g:
+        <div class="hint">Erst: 180×5 = ____ g. Dann: ____ kg ____ g</div>
+        <div class="inline">
+          <input type="number" inputmode="numeric" placeholder="g (Brot)" />
+          <div class="unitbox">g</div>
+        </div>
+        <div style="height:8px"></div>
+        <div class="inline">
+          <input type="number" inputmode="numeric" placeholder="kg" />
+          <input type="number" inputmode="numeric" placeholder="g" />
+        </div>
+      </div>
+
+      <div class="q" data-type="pair3" data-answer="150|150|150">
+        c) Ergänzen: 450 g = ____ g + ____ g + ____ g
+        <div class="inline">
+          <input type="number" inputmode="numeric" />
+          <input type="number" inputmode="numeric" />
+        </div>
+        <div style="height:8px"></div>
+        <input type="number" inputmode="numeric" />
+      </div>
+
+      <div class="result"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="qtitle">7. Knobelaufgabe</div>
+
+    <div class="q" data-type="pair" data-answer="850|150">
+      Ein Paket wiegt 1 kg. Nach dem Öffnen bleiben 850 g übrig.<br>
+      a) Inhalt: ____ g &nbsp;&nbsp; b) Verpackung: ____ g
+      <div class="inline">
+        <input type="number" inputmode="numeric" placeholder="Inhalt (g)" />
+        <input type="number" inputmode="numeric" placeholder="Verpackung (g)" />
+      </div>
+    </div>
+
+    <div class="result"></div>
+  </div>
+
+  <div class="card" id="summaryCard">
+    <div class="qtitle">Gesamtresultat</div>
+    <div class="result" id="summary">Noch nicht geprüft.</div>
+  </div>
+</main>
+
+<div class="btnbar">
+  <button id="checkBtn">Prüfen</button>
+  <div class="smallbtns">
+    <button class="ghost" id="resetBtn" type="button">Zurücksetzen</button>
+    <button class="ghost" id="showBtn" type="button">Lösungen anzeigen</button>
+  </div>
+</div>
+
+<script>
+  const norm = (s) => (s ?? "")
+    .toString()
+    .trim()
+    .replace(/\s+/g, " ")
+    .toLowerCase();
+
+  function setResult(box, okCount, total, messages){
+    box.innerHTML = `<b>${okCount}/${total}</b> richtig<br>` + messages.join("<br>");
+  }
+
+  function checkQuestion(q){
+    const type = q.dataset.type;
+    const ans  = q.dataset.answer;
+
+    const resultLines = [];
+    let ok = false;
+
+    if(type === "select"){
+      const sel = q.querySelector("select");
+      ok = norm(sel.value) === norm(ans);
+      resultLines.push(ok ? `<span class="ok">✓ richtig</span>` : `<span class="no">✗ falsch</span>`);
+    }
+
+    if(type === "text"){
+      const inp = q.querySelector("input");
+      ok = norm(inp.value) === norm(ans);
+      resultLines.push(ok ? `<span class="ok">✓ richtig</span>` : `<span class="no">✗ falsch</span>`);
+    }
+
+    if(type === "pair"){
+      const inps = q.querySelectorAll("input");
+      const [a,b] = ans.split("|").map(norm);
+      ok = norm(inps[0].value) === a && norm(inps[1].value) === b;
+      resultLines.push(ok ? `<span class="ok">✓ richtig</span>` : `<span class="no">✗ falsch</span>`);
+    }
+
+    if(type === "pair3"){
+      const inps = q.querySelectorAll("input");
+      const [a,b,c] = ans.split("|").map(norm);
+      ok = norm(inps[0].value) === a && norm(inps[1].value) === b && norm(inps[2].value) === c;
+      resultLines.push(ok ? `<span class="ok">✓ richtig</span>` : `<span class="no">✗ falsch</span>`);
+    }
+
+    if(type === "multi"){
+      const want = ans.split(",").map(norm).sort().join(",");
+      const got = Array.from(q.querySelectorAll("input[type=checkbox]:checked"))
+        .map(x => norm(x.value)).sort().join(",");
+      ok = got === want;
+      resultLines.push(ok ? `<span class="ok">✓ richtig</span>` : `<span class="no">✗ falsch</span>`);
+    }
+
+    return { ok, msg: resultLines.join(" ") };
+  }
+
+  function checkAll(){
+    let total = 0, okTotal = 0;
+
+    document.querySelectorAll(".card").forEach(card => {
+      const qs = card.querySelectorAll(".q");
+      const box = card.querySelector(".result");
+      if(!qs.length || !box) return;
+
+      let okCount = 0;
+      const messages = [];
+
+      qs.forEach(q => {
+        total += 1;
+        const r = checkQuestion(q);
+        if(r.ok){ okCount += 1; okTotal += 1; }
+        messages.push(r.msg);
+      });
+
+      setResult(box, okCount, qs.length, messages);
+    });
+
+    const summary = document.getElementById("summary");
+    summary.innerHTML = `<b>${okTotal}/${total}</b> richtig. ` +
+      (okTotal === total
+        ? `<span class="ok">Super!</span>`
+        : `Mach weiter – du schaffst das!`);
+    document.getElementById("summaryCard").scrollIntoView({behavior:"smooth", block:"center"});
+  }
+
+  function resetAll(){
+    document.querySelectorAll("input").forEach(i => {
+      if(i.type === "checkbox") i.checked = false;
+      else i.value = "";
+    });
+    document.querySelectorAll("select").forEach(s => s.value = "");
+    document.querySelectorAll(".result").forEach(r => r.textContent = "");
+    document.getElementById("summary").textContent = "Noch nicht geprüft.";
+    window.scrollTo({top:0, behavior:"smooth"});
+  }
+
+  function showSolutions(){
+    // Fill correct answers into fields (so it becomes a learning tool).
+    document.querySelectorAll(".q").forEach(q => {
+      const type = q.dataset.type;
+      const ans = q.dataset.answer;
+
+      if(type === "select"){
+        const sel = q.querySelector("select");
+        sel.value = ans;
+      } else if(type === "text"){
+        const inp = q.querySelector("input");
+        inp.value = ans;
+      } else if(type === "pair"){
+        const [a,b] = ans.split("|");
+        const inps = q.querySelectorAll("input");
+        inps[0].value = a; inps[1].value = b;
+      } else if(type === "pair3"){
+        const [a,b,c] = ans.split("|");
+        const inps = q.querySelectorAll("input");
+        inps[0].value = a; inps[1].value = b; inps[2].value = c;
+      } else if(type === "multi"){
+        const wants = ans.split(",").map(x=>x.trim());
+        q.querySelectorAll("input[type=checkbox]").forEach(cb => {
+          cb.checked = wants.includes(cb.value);
+        });
+      }
+    });
+    checkAll();
+  }
+
+  document.getElementById("checkBtn").addEventListener("click", checkAll);
+  document.getElementById("resetBtn").addEventListener("click", resetAll);
+  document.getElementById("showBtn").addEventListener("click", showSolutions);
+</script>
+</body>
+</html>
