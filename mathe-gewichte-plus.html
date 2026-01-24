@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mathe – Gewichte (g / kg)</title>
+  <style>
+    :root{font-family:-apple-system,system-ui,Arial,sans-serif}
+    body{margin:0;background:radial-gradient(1100px 700px at 15% 0%,#fff4e8 0%,#f6f7fb 45%),radial-gradient(900px 600px at 90% 5%,#e9f5ff 0%,#f6f7fb 55%),#f6f7fb;color:#111}
+    header{position:sticky;top:0;background:rgba(246,247,251,.92);backdrop-filter:blur(10px);border-bottom:1px solid #e6e6ef;padding:14px;z-index:10}
+    h1{margin:0;font-size:18px;font-weight:900}
+    .sub{margin-top:6px;font-size:13px;opacity:.75;line-height:1.35}
+    main{max-width:980px;margin:0 auto;padding:14px 12px 110px}
+    .card{background:#fff;border:1px solid #e6e6ef;border-radius:18px;padding:14px;margin:10px 0;box-shadow:0 1px 0 rgba(0,0,0,.03)}
+    .q{padding:12px;border-radius:16px;background:radial-gradient(600px 120px at 20% 0%,#fff8ea 0%,rgba(255,248,234,0) 60%),radial-gradient(600px 120px at 90% 10%,#eef7ff 0%,rgba(238,247,255,0) 60%),#fafaff;border:1px solid #ededff;margin:10px 0}
+    input,select{width:100%;padding:10px 12px;border-radius:14px;border:1px solid #d9d9e7;font-size:16px;background:#fff}
+    .hint{margin-top:8px;font-size:13px;opacity:.75;line-height:1.35}
+    .result{margin-top:10px;padding:10px 12px;border-radius:14px;border:1px solid #e6e6ef;background:#fff}
+    .btnbar{position:fixed;left:0;right:0;bottom:0;background:rgba(246,247,251,.92);backdrop-filter:blur(10px);border-top:1px solid #e6e6ef;padding:10px 12px}
+    button{width:100%;padding:12px 14px;border-radius:16px;border:0;background:#111;color:#fff;font-size:16px;font-weight:900}
+    .smallbtns3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
+    .ghost{background:#fff;color:#111;border:1px solid #d9d9e7}
+    .back a{display:inline-block;text-decoration:none;color:#111;border:1px solid #d9d9e7;background:#fff;padding:9px 12px;border-radius:999px;font-weight:850}
+  </style>
+</head>
+<body>
+<header>
+  <h1>⚖️ Mathe: Gewichte (g / kg)</h1>
+  <div class="sub">Ergänzen · Umrechnen · Stimmt das?</div>
+</header>
+
+<main>
+  <div class="card back">
+    <a href="./index.html">⬅️ Zurück zur Startseite</a>
+    <div class="hint">Merke: <b>1 kg = 1000 g</b></div>
+  </div>
+
+  <div class="card">
+    <div id="quizMount"></div>
+  </div>
+</main>
+
+<div class="btnbar">
+  <button id="checkBtn">✅ Prüfen</button>
+  <div class="smallbtns3">
+    <button class="ghost" id="newBtn" type="button">🔄 Neue Runde</button>
+    <button class="ghost" id="resetBtn" type="button">↩️ Reset</button>
+    <button class="ghost" id="showBtn" type="button">👀 Lösungen</button>
+  </div>
+</div>
+
+<script type="module">
+  import { randInt, choice, renderQuiz, shuffle } from "./quizlib.js";
+
+  function build(){
+    const qs=[];
+    // Ergänzen bis Zielgewicht (100/500/1000)
+    const targets = shuffle([100,500,1000]).slice(0,2);
+    targets.forEach((T,i)=>{
+      const a = randInt(Math.floor(T*0.3), Math.floor(T*0.9));
+      const label = T===1000 ? "1 kg (1000 g)" : `${T} g`;
+      qs.push({ id:"e"+i, type:"num", promptHtml:`<b>A${i+1})</b> ${a} g + ____ g = ${label}`, answer:String(T-a) });
+    });
+
+    // Umrechnen g -> kg g
+    {
+      const g = choice([1200,1350,1750,2050,980,750]);
+      const kg = Math.floor(g/1000);
+      const rest = g%1000;
+      qs.push({ id:"u1", type:"pair", promptHtml:`<b>B1)</b> ${g} g = ____ kg ____ g`, answer:`${kg}|${rest}` });
+    }
+    // kg g -> g
+    {
+      const kg = choice([1,2,3]);
+      const rest = choice([50,120,250,350,450,600,750,900]);
+      qs.push({ id:"u2", type:"num", promptHtml:`<b>B2)</b> ${kg} kg ${rest} g = ____ g`, answer:String(kg*1000 + rest) });
+    }
+    // Multiplikation
+    {
+      const n = choice([2,3,4]);
+      const g = choice([150,200,250,300,350]);
+      qs.push({ id:"u3", type:"num", promptHtml:`<b>B3)</b> ${n} × ${g} g = ____ g`, answer:String(n*g) });
+    }
+
+    // Stimmt das? (realistisch)
+    const tf = shuffle([
+      {t:"Ein Apfel wiegt ungefähr 100 g.", a:"richtig"},
+      {t:"Ein Fussball ist leichter als 1 kg.", a:"richtig"},
+      {t:"Vier 250-g-Päckli wiegen zusammen 1 kg.", a:"richtig"},
+      {t:"Ein Kind in der 3. Klasse wiegt etwa 10 kg.", a:"falsch"},
+      {t:"Eine Zahnbürste ist schwerer als 1 kg.", a:"falsch"},
+    ]).slice(0,3);
+
+    tf.forEach((x,i)=>qs.push({
+      id:"t"+i,
+      type:"select",
+      promptHtml:`<b>C${i+1})</b> ${x.t}`,
+      options:[{v:"richtig",label:"richtig"},{v:"falsch",label:"falsch"}],
+      answer:x.a
+    }));
+
+    return qs;
+  }
+
+  let api=null;
+  function newRound(){ api = renderQuiz({ mount:document.getElementById("quizMount"), questions: build() }); }
+  newRound();
+
+  document.getElementById("checkBtn").addEventListener("click", ()=>api.check());
+  document.getElementById("resetBtn").addEventListener("click", ()=>api.reset());
+  document.getElementById("showBtn").addEventListener("click", ()=>api.showSolutions());
+  document.getElementById("newBtn").addEventListener("click", newRound);
+</script>
+</body>
+</html>
