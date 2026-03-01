@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📚 Wortarten Meister – Elmore Edition</title>
+<title>📚 Wortarten – Elmore Chaos Edition</title>
 
 <style>
 body{
   font-family: Arial, sans-serif;
-  background: linear-gradient(135deg,#8ec5fc,#e0c3fc);
+  background: linear-gradient(135deg,#ff9a9e,#fad0c4);
   text-align:center;
   padding:20px;
   margin:0;
@@ -16,17 +16,17 @@ body{
 
 h1{
   color:white;
-  text-shadow:2px 2px 5px rgba(0,0,0,0.3);
+  text-shadow:2px 2px 6px rgba(0,0,0,0.3);
 }
 
 .card{
   background:white;
-  padding:90px 40px;
+  padding:100px 40px;
   border-radius:30px;
-  box-shadow:0 15px 35px rgba(0,0,0,0.2);
+  box-shadow:0 15px 40px rgba(0,0,0,0.25);
   margin:40px auto;
-  max-width:800px;
-  font-size:60px;
+  max-width:850px;
+  font-size:64px;
   font-weight:bold;
 }
 
@@ -45,20 +45,18 @@ button{
 .adj{background:#ff9800;}
 .pron{background:#9c27b0;}
 .adv{background:#e91e63;}
-.help{background:#607d8b;}
+.help{background:#455a64;}
 .next{background:#3f51b5;}
 .back{background:#673ab7;}
-
-button:hover{opacity:0.9;}
 
 .feedback{
   margin-top:20px;
   font-size:18px;
-  max-width:800px;
+  max-width:850px;
   margin-left:auto;
   margin-right:auto;
   background:white;
-  padding:15px;
+  padding:20px;
   border-radius:15px;
 }
 
@@ -66,9 +64,9 @@ button:hover{opacity:0.9;}
   margin-top:30px;
   font-size:20px;
   background:white;
-  padding:20px;
+  padding:25px;
   border-radius:20px;
-  max-width:800px;
+  max-width:850px;
   margin-left:auto;
   margin-right:auto;
 }
@@ -78,8 +76,8 @@ button:hover{opacity:0.9;}
 </head>
 <body>
 
-<h1>📚 Wortarten Meister – Elmore Edition</h1>
-<p style="color:white;">20 zufällige Karten · Schwer · Mit Humor</p>
+<h1>📚 Wortarten – Elmore Chaos Edition</h1>
+<p style="color:white;">20 Karten · Schwer · 1000+ Einträge</p>
 
 <div id="card" class="card"></div>
 
@@ -92,7 +90,7 @@ button:hover{opacity:0.9;}
 </div>
 
 <br>
-<button class="help" onclick="showHelp()">💡 Hilfe (Mini-Episode)</button>
+<button class="help" onclick="showHelp()">💡 Hilfe – Mini Episode</button>
 <button class="next hidden" id="nextBtn" onclick="nextCard()">Weiter ➡</button>
 
 <div style="margin-top:40px;">
@@ -104,48 +102,52 @@ button:hover{opacity:0.9;}
 
 <script>
 
-// ---------------- CHARACTER POOL ----------------
+// ---------------- REAL CHARACTER LIST ----------------
 
 const characters = [
-"Gumball","Darwin","Anais","Nicole",
-"Richard","Tobias","Penny","Banana Joe",
-"Carrie","Alan","Masami","Principal Brown"
+"Gumball",
+"Darwin",
+"Anais",
+"Nicole",
+"Richard",
+"Tobias",
+"Penny",
+"Banana Joe",
+"Carrie",
+"Alan",
+"Masami",
+"Principal Brown",
+"Miss Simian",
+"Bobert"
 ];
 
-// ---------------- WORD POOLS (Harder) ----------------
+// ---------------- HARD WORD POOLS ----------------
 
 const nounPool = [
-"Konsequenz","Katastrophe","Strategie","Illusion","Provokation",
-"Diskussion","Entscheidung","Reaktion","Verantwortung","Geheimnis",
-"Transformation","Komplikation","Theorie","Vision","Kollision",
-"Mutation","Manipulation","Verwirrung","Mission","Demonstration"
+"Konsequenz","Katastrophe","Illusion","Provokation","Diskussion",
+"Strategie","Mutation","Transformation","Manipulation","Komplikation"
 ];
 
 const verbPool = [
-"analysiert","übertreibt","manipuliert","provoziert","reagiert",
-"unterbricht","unterschätzt","verzweifelt","argumentiert","verschwindet",
-"beschleunigt","eskaliert","interpretiert","explodiert","überrascht",
-"behauptet","beobachtet","verursacht","entwickelt","dramatisiert"
+"eskaliert","dramatisiert","manipuliert","provoziert","übertreibt",
+"argumentiert","explodiert","beschuldigt","verursacht","inszeniert"
 ];
 
 const adjectivePool = [
-"chaotisch","dramatisch","absurd","genial","riskant",
-"kompliziert","mysteriös","übertrieben","verantwortungslos","brillant",
-"ironisch","peinlich","strategisch","verwirrend","unglaublich",
-"lächerlich","mutig","unlogisch","episch","katastrophal"
+"absurd","dramatisch","strategisch","chaotisch","peinlich",
+"übertrieben","katastrophal","genial","verwirrend","episch"
 ];
 
 const pronounPool = [
-"niemand","jemand","alle","keiner","dieser",
-"welcher","man","etwas","nichts","solcher"
+"niemand","jemand","alle","keiner","dieser","welcher","man"
 ];
 
 const adverbPool = [
-"plötzlich","absichtlich","wahrscheinlich","heimlich","ständig",
-"unerwartet","extrem","merkwürdigerweise","offensichtlich","dramatisch"
+"plötzlich","absichtlich","extrem","heimlich","unerwartet",
+"dramatisch","offensichtlich","wahrscheinlich"
 ];
 
-// ---------------- BUILD 1000 ENTRIES ----------------
+// ---------------- DATABASE ----------------
 
 let wordDB=[];
 
@@ -173,38 +175,37 @@ function createEntry(pool,type){
   let sentence="";
 
   if(type==="Nomen"){
-    sentence = 
-    "In einer völlig unerwarteten Wendung führte Gumballs neuester Plan zu einer gigantischen <b>"+word+
-    "</b>. "+c1+" war überzeugt, dass das alles Teil einer geheimen Superhelden-Ausbildung sei, während "+c2+
-    " dramatisch aus dem Fenster sprang.";
+    sentence =
+    "Als Gumball beschloss, Bürgermeister von Elmore zu werden, endete seine Wahlkampfrede in einer gigantischen <b>"+word+
+    "</b>. Darwin verteilte Autogramme, während Miss Simian die Polizei rief, weil Richard Konfetti aus dem Toaster schoss.";
   }
 
   if(type==="Verb"){
     sentence =
-    c1+" "+ "<b>"+word+"</b>" +
-    " mitten im Unterricht, als Anais versuchte, eine wissenschaftliche Präsentation zu halten. "+
-    c2+" kommentierte das Ganze wie ein Sportmoderator.";
+    "Mitten in der Turnhalle "+c1+" plötzlich <b>"+word+
+    "</b>, nachdem Tobias behauptet hatte, er könne schneller denken als Bobert. "+
+    "Anais führte sofort eine wissenschaftliche Live-Analyse durch, während Banana Joe dramatische Musik summte.";
   }
 
   if(type==="Adjektiv"){
     sentence =
-    "Der geheime Plan von "+c1+" war so <b>"+word+
-    "</b>, dass selbst Darwin kurz überlegte, erwachsen zu werden. "+
-    c2+" klatschte trotzdem begeistert.";
+    "Der neue Plan von "+c1+" war so <b>"+word+
+    "</b>, dass selbst Nicole kurz ihre Lebensentscheidungen hinterfragte. "+
+    c2+" applaudierte begeistert und rief: 'Das ist Fernsehen-Gold!'";
   }
 
   if(type==="Pronomen"){
     sentence =
     "Plötzlich wusste <b>"+word+
-    "</b>, warum Richard wieder einmal die Küche in Brand gesetzt hatte. "+
-    c1+" beschloss, es einfach als 'kreatives Experiment' zu bezeichnen.";
+    "</b>, warum Principal Brown im Kostüm eines Einhorns durch die Schule rannte. "+
+    "Gumball erklärte feierlich, das sei pädagogisch wertvoll.";
   }
 
   if(type==="Adverb"){
     sentence =
     c1+" reagierte <b>"+word+
-    "</b>, nachdem Tobias behauptet hatte, er sei offiziell zum König von Elmore gewählt worden. "+
-    c2+" begann sofort mit einer dramatischen Krönungszeremonie.";
+    "</b>, als Carrie versehentlich das WLAN mit einem Geisterfluch belegte. "+
+    "Darwin versuchte, das Problem mit einem Sandwich zu lösen.";
   }
 
   return {word,type,sentence};
@@ -224,7 +225,7 @@ function shuffle(array){
 
 // ---------------- SPACED REPETITION ----------------
 
-let wrongStats = JSON.parse(localStorage.getItem("wortStatsFinal")) || {};
+let wrongStats = JSON.parse(localStorage.getItem("wortChaos")) || {};
 let gameWords=[];
 let current=0;
 let score=0;
@@ -288,7 +289,7 @@ function guess(type){
     "❌ Falsch! <b>"+word+"</b> ist ein "+correct+".";
   }
 
-  localStorage.setItem("wortStatsFinal",JSON.stringify(wrongStats));
+  localStorage.setItem("wortChaos",JSON.stringify(wrongStats));
 
   answered[current]=true;
   document.getElementById("nextBtn").classList.remove("hidden");
@@ -323,11 +324,11 @@ function endGame(){
   html+="Du hast "+score+" von 20 richtig.<br><br>";
 
   if(score===20){
-    html+="🌟 Perfekt! Nicole wäre stolz.";
+    html+="🌟 Nicole nickt anerkennend.";
   }else if(score>=15){
-    html+="🔥 Stark! Anais nickt respektvoll.";
+    html+="🔥 Anais ist beeindruckt.";
   }else{
-    html+="💪 Weiter üben! Gumball würde einfach nochmal starten.";
+    html+="💥 Gumball würde einfach behaupten, es war Absicht.";
   }
 
   document.getElementById("summary").innerHTML=html;
