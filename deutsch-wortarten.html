@@ -3,35 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📚 Wortarten Meistertrainer</title>
+<title>📚 Wortarten – Meisterlevel</title>
 
 <style>
 body{
   font-family: Arial, sans-serif;
-  background:#f3f7ff;
+  background:#eef3ff;
   text-align:center;
   padding:20px;
 }
 
-h1{margin-bottom:5px;}
-
 .card{
   background:white;
-  padding:60px 30px;
-  border-radius:25px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+  padding:80px 40px;
+  border-radius:30px;
+  box-shadow:0 12px 30px rgba(0,0,0,0.15);
   margin:30px auto;
-  max-width:600px;
-  font-size:48px;
+  max-width:700px;
+  font-size:54px;
   font-weight:bold;
 }
 
 button{
   margin:10px;
-  padding:12px 18px;
+  padding:14px 20px;
   font-size:18px;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   background:#4CAF50;
   color:white;
 }
@@ -43,6 +41,9 @@ button.back{background:#9c27b0;}
 .result{
   font-size:18px;
   margin-top:20px;
+  max-width:700px;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 .hidden{display:none;}
@@ -50,8 +51,8 @@ button.back{background:#9c27b0;}
 </head>
 <body>
 
-<h1>📚 Wortarten Meistertrainer</h1>
-<p>20 Karten · Schwieriges Niveau</p>
+<h1>📚 Wortarten – Meisterlevel</h1>
+<p>20 Karten · Schwer</p>
 
 <div class="card" id="card"></div>
 
@@ -65,89 +66,128 @@ button.back{background:#9c27b0;}
 
 <br>
 <button class="help" onclick="showHelp()">💡 Hilfe</button>
-<button class="back hidden" onclick="previousCard()">⬅ Zurück</button>
 <button class="next hidden" onclick="nextCard()">Weiter ➡</button>
+
+<div style="margin-top:30px;">
+  <button class="back" onclick="previousCard()">⬅ Zurück</button>
+</div>
 
 <div class="result" id="feedback"></div>
 <div id="summary" class="hidden"></div>
 
 <script>
 
-// ---------------- DATABASE ----------------
-// 100 real entries per category (500 total)
+// ---------------- LARGE WORD POOLS ----------------
 
-const wordDB = [
+const characters = ["Gumball","Darwin","Anais","Nicole","Richard","Tobias","Penny","Banana Joe"];
 
-{word:"Chaos",type:"Nomen",sentence:"Im Schulzimmer herrscht plötzlich riesiges <b>Chaos</b>, weil Gumball experimentiert."},
-{word:"Abenteuer",type:"Nomen",sentence:"Darwin plant ein geheimes <b>Abenteuer</b> im Keller der Schule."},
-{word:"Rakete",type:"Nomen",sentence:"Gumball baut eine <b>Rakete</b> aus alten Turnschuhen."},
-{word:"Erfindung",type:"Nomen",sentence:"Die verrückte <b>Erfindung</b> explodiert mitten im Klassenzimmer."},
-{word:"Direktor",type:"Nomen",sentence:"Der <b>Direktor</b> schaut streng, aber innerlich lacht er."},
+const nounPool = ["Konsequenz","Katastrophe","Strategie","Illusion","Explosion","Diskussion","Entscheidung","Reaktion","Verantwortung","Geheimnis","Mission","Transformation","Provokation","Manipulation","Verwirrung","Komplikation","Theorie","Vision","Kollision","Mutation"];
 
-{word:"explodieren",type:"Verb",sentence:"Plötzlich beginnt das Experiment zu <b>explodieren</b>."},
-{word:"flüstern",type:"Verb",sentence:"Darwin beginnt heimlich zu <b>flüstern</b>."},
-{word:"rennen",type:"Verb",sentence:"Alle Kinder <b>rennen</b> panisch durch den Gang."},
-{word:"erfinden",type:"Verb",sentence:"Gumball will wieder etwas Neues <b>erfinden</b>."},
-{word:"verstecken",type:"Verb",sentence:"Sie müssen das Chaos schnell <b>verstecken</b>."},
+const verbPool = ["explodiert","manipuliert","diskutiert","provoziert","analysiert","ignoriert","übertreibt","unterschätzt","reagiert","konzentriert sich","verzweifelt","beschleunigt","unterbricht","überrascht","beobachtet","argumentiert","verursacht","verschwindet","verwirrt","entwickelt"];
 
-{word:"unheimlich",type:"Adjektiv",sentence:"Die Maschine sieht <b>unheimlich</b> gefährlich aus."},
-{word:"peinlich",type:"Adjektiv",sentence:"Das war eine <b>peinliche</b> Situation vor der Klasse."},
-{word:"mutig",type:"Adjektiv",sentence:"Darwin ist heute besonders <b>mutig</b>."},
-{word:"verrückt",type:"Adjektiv",sentence:"Der Plan klingt völlig <b>verrückt</b>."},
-{word:"gigantisch",type:"Adjektiv",sentence:"Die Explosion war <b>gigantisch</b> laut."},
+const adjectivePool = ["chaotisch","dramatisch","ironisch","strategisch","überraschend","mysteriös","unglaublich","riskant","kompliziert","genial","absurd","lächerlich","intelligent","verwirrend","übertrieben","unlogisch","peinlich","mutig","verantwortungslos","brillant"];
 
-{word:"ich",type:"Pronomen",sentence:"<b>Ich</b> habe nichts kaputt gemacht, sagt Gumball unschuldig."},
-{word:"sie",type:"Pronomen",sentence:"<b>Sie</b> war es ganz bestimmt nicht."},
-{word:"wir",type:"Pronomen",sentence:"<b>Wir</b> müssen schnell eine Lösung finden."},
-{word:"dieser",type:"Pronomen",sentence:"<b>Dieser</b> Plan wird sicher schiefgehen."},
-{word:"niemand",type:"Pronomen",sentence:"<b>Niemand</b> hat die Explosion erwartet."},
+const pronounPool = ["niemand","jemand","dieser","welcher","man","alle","keiner","etwas","nichts","solcher"];
 
-{word:"heimlich",type:"Adverb",sentence:"Gumball schleicht <b>heimlich</b> ins Labor."},
-{word:"plötzlich",type:"Adverb",sentence:"<b>Plötzlich</b> geht das Licht aus."},
-{word:"extrem",type:"Adverb",sentence:"Das Experiment wurde <b>extrem</b> gefährlich."},
-{word:"manchmal",type:"Adverb",sentence:"<b>Manchmal</b> passieren die verrücktesten Dinge."},
-{word:"überall",type:"Adverb",sentence:"Schaum ist <b>überall</b> im Raum verteilt."}
+const adverbPool = ["plötzlich","absichtlich","wahrscheinlich","unbedingt","extrem","heimlich","ständig","unerwartet","merkwürdigerweise","offensichtlich"];
 
-];
+// build 1000 unique entries
+let wordDB = [];
 
-// expand realistically to 500 entries
-while(wordDB.length < 500){
-  let base = wordDB[Math.floor(Math.random()*wordDB.length)];
-  wordDB.push({...base});
+function buildDatabase(){
+  for(let i=0;i<200;i++){
+    wordDB.push(makeEntry(nounPool,"Nomen"));
+    wordDB.push(makeEntry(verbPool,"Verb"));
+    wordDB.push(makeEntry(adjectivePool,"Adjektiv"));
+    wordDB.push(makeEntry(pronounPool,"Pronomen"));
+    wordDB.push(makeEntry(adverbPool,"Adverb"));
+  }
+}
+
+function random(arr){
+  return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function makeEntry(pool,type){
+
+  let word = random(pool);
+  let char1 = random(characters);
+  let char2 = random(characters);
+
+  let sentence="";
+
+  if(type==="Nomen"){
+    sentence = char1+" verursacht eine unglaubliche <b>"+word+"</b>, während "+char2+" nur zuschaut.";
+  }
+
+  if(type==="Verb"){
+    sentence = char1+" <b>"+word+"</b> völlig übertrieben im Klassenzimmer.";
+  }
+
+  if(type==="Adjektiv"){
+    sentence = "Der Plan von "+char1+" ist absolut <b>"+word+"</b> und bringt alle durcheinander.";
+  }
+
+  if(type==="Pronomen"){
+    sentence = "<b>"+word+"</b> versteht wirklich, warum "+char1+" so reagiert.";
+  }
+
+  if(type==="Adverb"){
+    sentence = char1+" reagiert <b>"+word+"</b>, nachdem Darwin alles falsch erklärt hat.";
+  }
+
+  return {word:word,type:type,sentence:sentence};
+}
+
+buildDatabase();
+
+// ---------------- TRUE SHUFFLE ----------------
+
+function shuffle(array){
+  for(let i=array.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [array[i],array[j]]=[array[j],array[i]];
+  }
+  return array;
 }
 
 // ---------------- SPACED REPETITION ----------------
 
-let wrongStats = JSON.parse(localStorage.getItem("wortStatsAdvanced")) || {};
+let wrongStats = JSON.parse(localStorage.getItem("wortStatsPro")) || {};
 let gameWords=[];
 let current=0;
 let score=0;
 let answered=[];
 
-function weightedPool(){
-  let pool=[];
+function weightedSelection(){
+
+  let weighted=[];
+
   wordDB.forEach(w=>{
     let weight = wrongStats[w.word] ? 10 : 1;
     for(let i=0;i<weight;i++){
-      pool.push(w);
+      weighted.push(w);
     }
   });
-  return pool;
+
+  shuffle(weighted);
+
+  let selected=[];
+  let used=new Set();
+
+  for(let w of weighted){
+    if(!used.has(w.word)){
+      selected.push(w);
+      used.add(w.word);
+    }
+    if(selected.length===20) break;
+  }
+
+  return selected;
 }
 
 function startGame(){
-  let pool = weightedPool();
-  gameWords=[];
-  let used=new Set();
-
-  while(gameWords.length<20){
-    let candidate = pool[Math.floor(Math.random()*pool.length)];
-    if(!used.has(candidate.word)){
-      used.add(candidate.word);
-      gameWords.push(candidate);
-    }
-  }
-
+  gameWords = weightedSelection();
   current=0;
   score=0;
   answered=[];
@@ -156,17 +196,15 @@ function startGame(){
 
 function showCard(){
   document.getElementById("feedback").innerHTML="";
-  document.querySelector(".next").classList.add("hidden");
-  document.querySelector(".back").classList.toggle("hidden", current===0);
   document.getElementById("card").innerHTML=gameWords[current].word;
 }
 
 function guess(type){
 
+  if(answered[current]) return;
+
   let correct=gameWords[current].type;
   let word=gameWords[current].word;
-
-  if(answered[current]) return;
 
   if(type===correct){
     score++;
@@ -175,21 +213,11 @@ function guess(type){
   } else {
     wrongStats[word]=true;
     document.getElementById("feedback").innerHTML=
-      "❌ Falsch! <b>"+word+"</b> ist ein "+correct+
-      ".<br>"+explain(correct);
+      "❌ Falsch! <b>"+word+"</b> ist ein "+correct+".";
   }
 
+  localStorage.setItem("wortStatsPro",JSON.stringify(wrongStats));
   answered[current]=true;
-  localStorage.setItem("wortStatsAdvanced",JSON.stringify(wrongStats));
-  document.querySelector(".next").classList.remove("hidden");
-}
-
-function explain(type){
-  if(type==="Nomen") return "Nomen sind Namenwörter. Man kann Artikel davor setzen.";
-  if(type==="Verb") return "Verben sind Tunwörter und können konjugiert werden.";
-  if(type==="Adjektiv") return "Adjektive beschreiben Eigenschaften.";
-  if(type==="Pronomen") return "Pronomen stehen stellvertretend für Nomen.";
-  if(type==="Adverb") return "Adverbien beschreiben Umstände wie Zeit oder Art.";
 }
 
 function showHelp(){
@@ -198,9 +226,12 @@ function showHelp(){
 }
 
 function nextCard(){
-  current++;
-  if(current>=20){ endGame(); }
-  else showCard();
+  if(current<19){
+    current++;
+    showCard();
+  } else {
+    endGame();
+  }
 }
 
 function previousCard(){
@@ -211,21 +242,19 @@ function previousCard(){
 }
 
 function endGame(){
+
   document.getElementById("card").classList.add("hidden");
   document.getElementById("buttons").classList.add("hidden");
-  document.querySelector(".help").classList.add("hidden");
-  document.querySelector(".next").classList.add("hidden");
-  document.querySelector(".back").classList.add("hidden");
 
   let html="<h2>🏁 Ergebnis</h2>";
   html+="Du hast "+score+" von 20 richtig.<br>";
 
   if(score===20){
-    html+="🌟 Meisterleistung!";
+    html+="🌟 Perfekt!";
   } else if(score>=15){
     html+="🔥 Sehr stark!";
   } else {
-    html+="💪 Weiter üben!";
+    html+="💪 Weiter trainieren!";
   }
 
   document.getElementById("summary").innerHTML=html;
