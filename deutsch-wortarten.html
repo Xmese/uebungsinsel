@@ -77,7 +77,7 @@ button{
 <body>
 
 <h1>📚 Wortarten – Elmore Chaos Edition</h1>
-<p style="color:white;">20 Karten · Schwer · 1000+ Einträge</p>
+<p style="color:white;">20 Karten · Schwer · Mit Mini-Episoden</p>
 
 <div id="card" class="card"></div>
 
@@ -102,23 +102,13 @@ button{
 
 <script>
 
-// ---------------- REAL CHARACTER LIST ----------------
+// ---------------- CHARACTER LIST ----------------
 
 const characters = [
-"Gumball",
-"Darwin",
-"Anais",
-"Nicole",
-"Richard",
-"Tobias",
-"Penny",
-"Banana Joe",
-"Carrie",
-"Alan",
-"Masami",
-"Principal Brown",
-"Miss Simian",
-"Bobert"
+"Gumball","Darwin","Anais","Nicole",
+"Richard","Tobias","Penny","Banana Joe",
+"Carrie","Alan","Masami","Principal Brown",
+"Miss Simian","Bobert"
 ];
 
 // ---------------- HARD WORD POOLS ----------------
@@ -147,7 +137,7 @@ const adverbPool = [
 "dramatisch","offensichtlich","wahrscheinlich"
 ];
 
-// ---------------- DATABASE ----------------
+// ---------------- DATABASE BUILD ----------------
 
 let wordDB=[];
 
@@ -176,36 +166,35 @@ function createEntry(pool,type){
 
   if(type==="Nomen"){
     sentence =
-    "Als Gumball beschloss, Bürgermeister von Elmore zu werden, endete seine Wahlkampfrede in einer gigantischen <b>"+word+
-    "</b>. Darwin verteilte Autogramme, während Miss Simian die Polizei rief, weil Richard Konfetti aus dem Toaster schoss.";
+    "Als Gumball Bürgermeister von Elmore werden wollte, endete seine Rede in einer gigantischen <b>"+word+
+    "</b>. Darwin warf Konfetti, während Nicole erklärte, dass das wahrscheinlich illegal sei.";
   }
 
   if(type==="Verb"){
     sentence =
-    "Mitten in der Turnhalle "+c1+" plötzlich <b>"+word+
-    "</b>, nachdem Tobias behauptet hatte, er könne schneller denken als Bobert. "+
-    "Anais führte sofort eine wissenschaftliche Live-Analyse durch, während Banana Joe dramatische Musik summte.";
+    c1+" <b>"+word+"</b> mitten im Unterricht, nachdem Tobias behauptet hatte, er sei offiziell schlauer als Bobert. "+
+    "Anais begann sofort eine PowerPoint-Präsentation über Logik.";
   }
 
   if(type==="Adjektiv"){
     sentence =
-    "Der neue Plan von "+c1+" war so <b>"+word+
-    "</b>, dass selbst Nicole kurz ihre Lebensentscheidungen hinterfragte. "+
-    c2+" applaudierte begeistert und rief: 'Das ist Fernsehen-Gold!'";
+    "Der geheime Plan von "+c1+" war so <b>"+word+
+    "</b>, dass selbst Richard ihn für unrealistisch hielt. "+
+    c2+" applaudierte trotzdem und rief: 'Das ist Kunst!'";
   }
 
   if(type==="Pronomen"){
     sentence =
     "Plötzlich wusste <b>"+word+
-    "</b>, warum Principal Brown im Kostüm eines Einhorns durch die Schule rannte. "+
-    "Gumball erklärte feierlich, das sei pädagogisch wertvoll.";
+    "</b>, warum Principal Brown im Einhornkostüm durch die Schule rannte. "+
+    "Gumball erklärte, das sei Teil eines Matheprojekts.";
   }
 
   if(type==="Adverb"){
     sentence =
     c1+" reagierte <b>"+word+
-    "</b>, als Carrie versehentlich das WLAN mit einem Geisterfluch belegte. "+
-    "Darwin versuchte, das Problem mit einem Sandwich zu lösen.";
+    "</b>, als Carrie versehentlich das WLAN verfluchte. "+
+    c2+" versuchte das Problem mit einem Sandwich zu lösen.";
   }
 
   return {word,type,sentence};
@@ -276,21 +265,38 @@ function guess(type){
 
   if(answered[current]) return;
 
-  let correct=gameWords[current].type;
-  let word=gameWords[current].word;
+  let correct = gameWords[current].type;
+  let word = gameWords[current].word;
+
+  let explanation="";
+
+  if(correct==="Nomen"){
+    explanation="<b>"+word+"</b> ist ein <b>Nomen</b>, weil es ein Ding, einen Begriff oder ein Ereignis bezeichnet. Nomen werden großgeschrieben und haben oft einen Artikel (der, die, das).";
+  }
+  if(correct==="Verb"){
+    explanation="<b>"+word+"</b> ist ein <b>Verb</b>, weil es eine Handlung oder einen Vorgang beschreibt. Verben kann man konjugieren (ich, du, er/sie/es …).";
+  }
+  if(correct==="Adjektiv"){
+    explanation="<b>"+word+"</b> ist ein <b>Adjektiv</b>, weil es beschreibt, wie etwas ist. Adjektive kann man steigern (z.B. schnell – schneller – am schnellsten).";
+  }
+  if(correct==="Pronomen"){
+    explanation="<b>"+word+"</b> ist ein <b>Pronomen</b>, weil es ein Nomen ersetzt oder begleitet (z.B. jemand, niemand, dieser).";
+  }
+  if(correct==="Adverb"){
+    explanation="<b>"+word+"</b> ist ein <b>Adverb</b>, weil es ein Verb, Adjektiv oder einen ganzen Satz näher beschreibt. Adverbien beantworten oft: Wie? Wann? Warum?";
+  }
 
   if(type===correct){
     score++;
     document.getElementById("feedback").innerHTML=
-    "🎉 Richtig! <b>"+word+"</b> ist ein "+correct+".";
+      "🎉 Richtig!<br><br>"+explanation;
   }else{
     wrongStats[word]=true;
     document.getElementById("feedback").innerHTML=
-    "❌ Falsch! <b>"+word+"</b> ist ein "+correct+".";
+      "❌ Falsch!<br><br>"+explanation;
   }
 
   localStorage.setItem("wortChaos",JSON.stringify(wrongStats));
-
   answered[current]=true;
   document.getElementById("nextBtn").classList.remove("hidden");
 }
@@ -324,11 +330,11 @@ function endGame(){
   html+="Du hast "+score+" von 20 richtig.<br><br>";
 
   if(score===20){
-    html+="🌟 Nicole nickt anerkennend.";
+    html+="🌟 Nicole ist stolz auf dich.";
   }else if(score>=15){
-    html+="🔥 Anais ist beeindruckt.";
+    html+="🔥 Anais nickt beeindruckt.";
   }else{
-    html+="💥 Gumball würde einfach behaupten, es war Absicht.";
+    html+="💥 Gumball behauptet einfach, es sei Absicht gewesen.";
   }
 
   document.getElementById("summary").innerHTML=html;
