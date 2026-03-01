@@ -70,32 +70,17 @@ button.next{
 <button class="next hidden" onclick="nextCard()">Nächste Karte</button>
 
 <div class="result" id="feedback"></div>
-
 <div id="summary" class="hidden"></div>
 
 <script>
 
-// -------- WORD DATABASE (500+) --------
+// ---------------- WORD DATABASE ----------------
 
-const nouns = ["Hund","Katze","Haus","Baum","Auto","Buch","Stuhl","Tisch","Blume","Kind",
-"Schule","Lehrer","Freund","Ball","Apfel","Wasser","Berg","Fluss","Tür","Fenster",
-"Vogel","Sonne","Mond","Stern","Brot","Milch","Zug","Strasse","Stadt","Dorf",
-"Computer","Telefon","Uhr","Bild","Spiel","Heft","Bleistift","Jacke","Schuh","Hose",
-"Sommer","Winter","Frühling","Herbst","Tag","Nacht","Minute","Stunde","Sekunde","Woche"];
+const nouns = ["Haus","Hund","Katze","Baum","Auto","Buch","Stuhl","Tisch","Blume","Kind"];
+const verbs = ["laufen","springen","lesen","schreiben","essen","trinken","spielen","fahren"];
+const adjectives = ["gross","klein","schnell","langsam","schön","laut","leise","kalt"];
+const pronouns = ["ich","du","er","sie","es","wir","ihr","mein","dein"];
 
-const verbs = ["laufen","springen","lesen","schreiben","essen","trinken","spielen",
-"fahren","sehen","hören","denken","lernen","malen","bauen","kaufen","singen",
-"tanzen","sprechen","fragen","antworten","schlafen","wachen","tragen","werfen",
-"finden","bringen","holen","suchen","zeigen","öffnen","schliessen","helfen"];
-
-const adjectives = ["gross","klein","schnell","langsam","schön","hässlich","laut",
-"leise","warm","kalt","hell","dunkel","fröhlich","traurig","stark","schwach",
-"jung","alt","kurz","lang","leicht","schwer","teuer","billig","hungrig","müde"];
-
-const pronouns = ["ich","du","er","sie","es","wir","ihr","mich","dich","uns",
-"mein","dein","sein","ihr","unser","dieser","diese","dieses","man","jemand"];
-
-// expand automatically to reach ~500 words
 function expand(base){
   let arr=[...base];
   while(arr.length<125){
@@ -111,7 +96,7 @@ const wordDB = [
   ...expand(pronouns).map(w=>({word:w,type:"Pronomen"}))
 ];
 
-// -------- SPACED REPETITION --------
+// ---------------- SPACED REPETITION ----------------
 
 let wrongStats = JSON.parse(localStorage.getItem("wortartenStats")) || {};
 let gameWords=[];
@@ -148,6 +133,8 @@ function showCard(){
   document.getElementById("card").innerHTML=gameWords[current].word;
 }
 
+// ---------------- GUESS ----------------
+
 function guess(type){
 
   let correct=gameWords[current].type;
@@ -156,32 +143,57 @@ function guess(type){
   if(type===correct){
     score++;
     document.getElementById("feedback").innerHTML=
-      "🎉 Richtig! '"+word+"' ist ein "+correct+".";
+      "🎉 Richtig! <b>"+word+"</b> ist ein "+correct+".";
   } else {
     wrongAnswers.push(gameWords[current]);
     wrongStats[word]=true;
     document.getElementById("feedback").innerHTML=
-      "❌ Falsch! '"+word+"' ist ein "+correct+
-      ".<br>Ein "+correct+" ist "+
-      explanation(correct);
+      "❌ Falsch! <b>"+word+"</b> ist ein "+correct+
+      ".<br>"+explanation(correct);
   }
 
   localStorage.setItem("wortartenStats",JSON.stringify(wrongStats));
   document.querySelector(".next").classList.remove("hidden");
 }
 
+// ---------------- EXPLANATION ----------------
+
 function explanation(type){
-  if(type==="Nomen") return "ein Wort für Dinge, Menschen oder Tiere (man kann 'der/die/das' davor setzen).";
-  if(type==="Verb") return "ein Tunwort (was man macht).";
-  if(type==="Adjektiv") return "ein Wiewort (beschreibt etwas).";
-  if(type==="Pronomen") return "ein Fürwort (steht für ein Nomen).";
+  if(type==="Nomen") return "Ein Nomen ist ein Namenwort. Man kann 'der, die oder das' davor setzen.";
+  if(type==="Verb") return "Ein Verb ist ein Tunwort. Es sagt, was jemand macht.";
+  if(type==="Adjektiv") return "Ein Adjektiv ist ein Wiewort. Es beschreibt etwas.";
+  if(type==="Pronomen") return "Ein Pronomen ist ein Fürwort. Es steht für ein Nomen.";
 }
 
+// ---------------- IMPROVED HELP FUNCTION ----------------
+
 function showHelp(){
+
   let word=gameWords[current].word;
+  let type=gameWords[current].type;
+  let sentence="";
+
+  if(type==="Nomen"){
+    sentence="Das <b>"+word+"</b> steht im Garten.";
+  }
+
+  if(type==="Verb"){
+    sentence="Ich <b>"+word+"</b> jeden Tag in der Schule.";
+  }
+
+  if(type==="Adjektiv"){
+    sentence="Der Hund ist sehr <b>"+word+"</b>.";
+  }
+
+  if(type==="Pronomen"){
+    sentence="<b>"+word+"</b> geht heute nach Hause.";
+  }
+
   document.getElementById("feedback").innerHTML=
-    "💡 Beispielsatz:<br>Ich benutze das Wort '"+word+"' in einem Satz.";
+    "💡 Beispielsatz:<br>"+sentence;
 }
+
+// ---------------- NEXT ----------------
 
 function nextCard(){
   current++;
@@ -191,6 +203,8 @@ function nextCard(){
     showCard();
   }
 }
+
+// ---------------- END GAME ----------------
 
 function endGame(){
 
