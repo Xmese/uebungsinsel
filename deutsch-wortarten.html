@@ -3,45 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📚 Wortarten – Meisterlevel</title>
+<title>📚 Wortarten Meister – Elmore Edition</title>
 
 <style>
 body{
   font-family: Arial, sans-serif;
-  background:#eef3ff;
+  background: linear-gradient(135deg,#8ec5fc,#e0c3fc);
   text-align:center;
   padding:20px;
+  margin:0;
+}
+
+h1{
+  color:white;
+  text-shadow:2px 2px 5px rgba(0,0,0,0.3);
 }
 
 .card{
   background:white;
-  padding:80px 40px;
+  padding:90px 40px;
   border-radius:30px;
-  box-shadow:0 12px 30px rgba(0,0,0,0.15);
-  margin:30px auto;
-  max-width:700px;
-  font-size:54px;
+  box-shadow:0 15px 35px rgba(0,0,0,0.2);
+  margin:40px auto;
+  max-width:800px;
+  font-size:60px;
   font-weight:bold;
 }
 
 button{
-  margin:10px;
-  padding:14px 20px;
+  margin:8px;
+  padding:14px 22px;
   font-size:18px;
   border:none;
   border-radius:12px;
-  background:#4CAF50;
+  cursor:pointer;
   color:white;
 }
 
-button.help{background:#ff9800;}
-button.next{background:#2196F3;}
-button.back{background:#9c27b0;}
+.nomen{background:#4CAF50;}
+.verb{background:#2196F3;}
+.adj{background:#ff9800;}
+.pron{background:#9c27b0;}
+.adv{background:#e91e63;}
+.help{background:#607d8b;}
+.next{background:#3f51b5;}
+.back{background:#673ab7;}
 
-.result{
-  font-size:18px;
+button:hover{opacity:0.9;}
+
+.feedback{
   margin-top:20px;
-  max-width:700px;
+  font-size:18px;
+  max-width:800px;
+  margin-left:auto;
+  margin-right:auto;
+  background:white;
+  padding:15px;
+  border-radius:15px;
+}
+
+.summary{
+  margin-top:30px;
+  font-size:20px;
+  background:white;
+  padding:20px;
+  border-radius:20px;
+  max-width:800px;
   margin-left:auto;
   margin-right:auto;
 }
@@ -51,97 +78,141 @@ button.back{background:#9c27b0;}
 </head>
 <body>
 
-<h1>📚 Wortarten – Meisterlevel</h1>
-<p>20 Karten · Schwer</p>
+<h1>📚 Wortarten Meister – Elmore Edition</h1>
+<p style="color:white;">20 zufällige Karten · Schwer · Mit Humor</p>
 
-<div class="card" id="card"></div>
+<div id="card" class="card"></div>
 
-<div id="buttons">
-  <button onclick="guess('Nomen')">Nomen</button>
-  <button onclick="guess('Verb')">Verb</button>
-  <button onclick="guess('Adjektiv')">Adjektiv</button>
-  <button onclick="guess('Pronomen')">Pronomen</button>
-  <button onclick="guess('Adverb')">Adverb</button>
+<div id="choices">
+  <button class="nomen" onclick="guess('Nomen')">Nomen</button>
+  <button class="verb" onclick="guess('Verb')">Verb</button>
+  <button class="adj" onclick="guess('Adjektiv')">Adjektiv</button>
+  <button class="pron" onclick="guess('Pronomen')">Pronomen</button>
+  <button class="adv" onclick="guess('Adverb')">Adverb</button>
 </div>
 
 <br>
-<button class="help" onclick="showHelp()">💡 Hilfe</button>
-<button class="next hidden" onclick="nextCard()">Weiter ➡</button>
+<button class="help" onclick="showHelp()">💡 Hilfe (Mini-Episode)</button>
+<button class="next hidden" id="nextBtn" onclick="nextCard()">Weiter ➡</button>
 
-<div style="margin-top:30px;">
+<div style="margin-top:40px;">
   <button class="back" onclick="previousCard()">⬅ Zurück</button>
 </div>
 
-<div class="result" id="feedback"></div>
-<div id="summary" class="hidden"></div>
+<div id="feedback" class="feedback"></div>
+<div id="summary" class="summary hidden"></div>
 
 <script>
 
-// ---------------- LARGE WORD POOLS ----------------
+// ---------------- CHARACTER POOL ----------------
 
-const characters = ["Gumball","Darwin","Anais","Nicole","Richard","Tobias","Penny","Banana Joe"];
+const characters = [
+"Gumball","Darwin","Anais","Nicole",
+"Richard","Tobias","Penny","Banana Joe",
+"Carrie","Alan","Masami","Principal Brown"
+];
 
-const nounPool = ["Konsequenz","Katastrophe","Strategie","Illusion","Explosion","Diskussion","Entscheidung","Reaktion","Verantwortung","Geheimnis","Mission","Transformation","Provokation","Manipulation","Verwirrung","Komplikation","Theorie","Vision","Kollision","Mutation"];
+// ---------------- WORD POOLS (Harder) ----------------
 
-const verbPool = ["explodiert","manipuliert","diskutiert","provoziert","analysiert","ignoriert","übertreibt","unterschätzt","reagiert","konzentriert sich","verzweifelt","beschleunigt","unterbricht","überrascht","beobachtet","argumentiert","verursacht","verschwindet","verwirrt","entwickelt"];
+const nounPool = [
+"Konsequenz","Katastrophe","Strategie","Illusion","Provokation",
+"Diskussion","Entscheidung","Reaktion","Verantwortung","Geheimnis",
+"Transformation","Komplikation","Theorie","Vision","Kollision",
+"Mutation","Manipulation","Verwirrung","Mission","Demonstration"
+];
 
-const adjectivePool = ["chaotisch","dramatisch","ironisch","strategisch","überraschend","mysteriös","unglaublich","riskant","kompliziert","genial","absurd","lächerlich","intelligent","verwirrend","übertrieben","unlogisch","peinlich","mutig","verantwortungslos","brillant"];
+const verbPool = [
+"analysiert","übertreibt","manipuliert","provoziert","reagiert",
+"unterbricht","unterschätzt","verzweifelt","argumentiert","verschwindet",
+"beschleunigt","eskaliert","interpretiert","explodiert","überrascht",
+"behauptet","beobachtet","verursacht","entwickelt","dramatisiert"
+];
 
-const pronounPool = ["niemand","jemand","dieser","welcher","man","alle","keiner","etwas","nichts","solcher"];
+const adjectivePool = [
+"chaotisch","dramatisch","absurd","genial","riskant",
+"kompliziert","mysteriös","übertrieben","verantwortungslos","brillant",
+"ironisch","peinlich","strategisch","verwirrend","unglaublich",
+"lächerlich","mutig","unlogisch","episch","katastrophal"
+];
 
-const adverbPool = ["plötzlich","absichtlich","wahrscheinlich","unbedingt","extrem","heimlich","ständig","unerwartet","merkwürdigerweise","offensichtlich"];
+const pronounPool = [
+"niemand","jemand","alle","keiner","dieser",
+"welcher","man","etwas","nichts","solcher"
+];
 
-// build 1000 unique entries
-let wordDB = [];
+const adverbPool = [
+"plötzlich","absichtlich","wahrscheinlich","heimlich","ständig",
+"unerwartet","extrem","merkwürdigerweise","offensichtlich","dramatisch"
+];
 
-function buildDatabase(){
-  for(let i=0;i<200;i++){
-    wordDB.push(makeEntry(nounPool,"Nomen"));
-    wordDB.push(makeEntry(verbPool,"Verb"));
-    wordDB.push(makeEntry(adjectivePool,"Adjektiv"));
-    wordDB.push(makeEntry(pronounPool,"Pronomen"));
-    wordDB.push(makeEntry(adverbPool,"Adverb"));
-  }
-}
+// ---------------- BUILD 1000 ENTRIES ----------------
+
+let wordDB=[];
 
 function random(arr){
   return arr[Math.floor(Math.random()*arr.length)];
 }
 
-function makeEntry(pool,type){
+function buildDatabase(){
+  for(let i=0;i<200;i++){
+    wordDB.push(createEntry(nounPool,"Nomen"));
+    wordDB.push(createEntry(verbPool,"Verb"));
+    wordDB.push(createEntry(adjectivePool,"Adjektiv"));
+    wordDB.push(createEntry(pronounPool,"Pronomen"));
+    wordDB.push(createEntry(adverbPool,"Adverb"));
+  }
+}
 
-  let word = random(pool);
-  let char1 = random(characters);
-  let char2 = random(characters);
+function createEntry(pool,type){
+
+  let word=random(pool);
+  let c1=random(characters);
+  let c2=random(characters);
+  let c3=random(characters);
 
   let sentence="";
 
   if(type==="Nomen"){
-    sentence = char1+" verursacht eine unglaubliche <b>"+word+"</b>, während "+char2+" nur zuschaut.";
+    sentence = 
+    "In einer völlig unerwarteten Wendung führte Gumballs neuester Plan zu einer gigantischen <b>"+word+
+    "</b>. "+c1+" war überzeugt, dass das alles Teil einer geheimen Superhelden-Ausbildung sei, während "+c2+
+    " dramatisch aus dem Fenster sprang.";
   }
 
   if(type==="Verb"){
-    sentence = char1+" <b>"+word+"</b> völlig übertrieben im Klassenzimmer.";
+    sentence =
+    c1+" "+ "<b>"+word+"</b>" +
+    " mitten im Unterricht, als Anais versuchte, eine wissenschaftliche Präsentation zu halten. "+
+    c2+" kommentierte das Ganze wie ein Sportmoderator.";
   }
 
   if(type==="Adjektiv"){
-    sentence = "Der Plan von "+char1+" ist absolut <b>"+word+"</b> und bringt alle durcheinander.";
+    sentence =
+    "Der geheime Plan von "+c1+" war so <b>"+word+
+    "</b>, dass selbst Darwin kurz überlegte, erwachsen zu werden. "+
+    c2+" klatschte trotzdem begeistert.";
   }
 
   if(type==="Pronomen"){
-    sentence = "<b>"+word+"</b> versteht wirklich, warum "+char1+" so reagiert.";
+    sentence =
+    "Plötzlich wusste <b>"+word+
+    "</b>, warum Richard wieder einmal die Küche in Brand gesetzt hatte. "+
+    c1+" beschloss, es einfach als 'kreatives Experiment' zu bezeichnen.";
   }
 
   if(type==="Adverb"){
-    sentence = char1+" reagiert <b>"+word+"</b>, nachdem Darwin alles falsch erklärt hat.";
+    sentence =
+    c1+" reagierte <b>"+word+
+    "</b>, nachdem Tobias behauptet hatte, er sei offiziell zum König von Elmore gewählt worden. "+
+    c2+" begann sofort mit einer dramatischen Krönungszeremonie.";
   }
 
-  return {word:word,type:type,sentence:sentence};
+  return {word,type,sentence};
 }
 
 buildDatabase();
 
-// ---------------- TRUE SHUFFLE ----------------
+// ---------------- SHUFFLE ----------------
 
 function shuffle(array){
   for(let i=array.length-1;i>0;i--){
@@ -153,7 +224,7 @@ function shuffle(array){
 
 // ---------------- SPACED REPETITION ----------------
 
-let wrongStats = JSON.parse(localStorage.getItem("wortStatsPro")) || {};
+let wrongStats = JSON.parse(localStorage.getItem("wortStatsFinal")) || {};
 let gameWords=[];
 let current=0;
 let score=0;
@@ -187,7 +258,7 @@ function weightedSelection(){
 }
 
 function startGame(){
-  gameWords = weightedSelection();
+  gameWords=weightedSelection();
   current=0;
   score=0;
   answered=[];
@@ -197,6 +268,7 @@ function startGame(){
 function showCard(){
   document.getElementById("feedback").innerHTML="";
   document.getElementById("card").innerHTML=gameWords[current].word;
+  document.getElementById("nextBtn").classList.add("hidden");
 }
 
 function guess(type){
@@ -209,27 +281,28 @@ function guess(type){
   if(type===correct){
     score++;
     document.getElementById("feedback").innerHTML=
-      "🎉 Richtig! <b>"+word+"</b> ist ein "+correct+".";
-  } else {
+    "🎉 Richtig! <b>"+word+"</b> ist ein "+correct+".";
+  }else{
     wrongStats[word]=true;
     document.getElementById("feedback").innerHTML=
-      "❌ Falsch! <b>"+word+"</b> ist ein "+correct+".";
+    "❌ Falsch! <b>"+word+"</b> ist ein "+correct+".";
   }
 
-  localStorage.setItem("wortStatsPro",JSON.stringify(wrongStats));
+  localStorage.setItem("wortStatsFinal",JSON.stringify(wrongStats));
+
   answered[current]=true;
+  document.getElementById("nextBtn").classList.remove("hidden");
 }
 
 function showHelp(){
-  document.getElementById("feedback").innerHTML=
-    "💡 "+gameWords[current].sentence;
+  document.getElementById("feedback").innerHTML="💡 "+gameWords[current].sentence;
 }
 
 function nextCard(){
   if(current<19){
     current++;
     showCard();
-  } else {
+  }else{
     endGame();
   }
 }
@@ -244,17 +317,17 @@ function previousCard(){
 function endGame(){
 
   document.getElementById("card").classList.add("hidden");
-  document.getElementById("buttons").classList.add("hidden");
+  document.getElementById("choices").classList.add("hidden");
 
   let html="<h2>🏁 Ergebnis</h2>";
-  html+="Du hast "+score+" von 20 richtig.<br>";
+  html+="Du hast "+score+" von 20 richtig.<br><br>";
 
   if(score===20){
-    html+="🌟 Perfekt!";
-  } else if(score>=15){
-    html+="🔥 Sehr stark!";
-  } else {
-    html+="💪 Weiter trainieren!";
+    html+="🌟 Perfekt! Nicole wäre stolz.";
+  }else if(score>=15){
+    html+="🔥 Stark! Anais nickt respektvoll.";
+  }else{
+    html+="💪 Weiter üben! Gumball würde einfach nochmal starten.";
   }
 
   document.getElementById("summary").innerHTML=html;
